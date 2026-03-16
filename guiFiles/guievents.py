@@ -22,7 +22,7 @@ class Eventhandler ():
         """
         entry.delete(0, tk.END)
         entry.insert(0, askopenfilename())
-    
+
     def pickpath(self, entry: tk.Entry) -> str:
         """_summary_
 
