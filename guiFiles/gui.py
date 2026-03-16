@@ -1,7 +1,7 @@
 """main program file
 """
 import tkinter as tk
-from guiEvents import eventHandler
+from guiFiles.guievents import Eventhandler
 
 
 window = tk.Tk()
@@ -21,7 +21,7 @@ pathPick = tk.Button(window,
                      padx=15,  # size of button in x
                      pady=3  # size of button in y
                      )
-pathPick.bind('<Button-1>', lambda event: eventHandler.pickPath((), pathEntry))
+pathPick.bind('<Button-1>', lambda event: Eventhandler.pickpath((), pathEntry))
 pathPick.grid(row=2, column=2, padx=5, pady=7)
 
 fileEntry = tk.Entry(window,
@@ -36,7 +36,11 @@ filePick = tk.Button(window,
                      padx=20,  # size of button in x
                      pady=3  # size of button in y
                      )
-filePick.bind('<Button-1>', lambda event: eventHandler.pickFile((), fileEntry))
+filePick.bind('<Button-1>', lambda event: Eventhandler.pickfile((), fileEntry))
 filePick.grid(row=3, column=2, padx=5, pady=7)
 
 window.mainloop()
+
+# add a list of dropdown menu for tags to be put onto file
+# add constraints to what can be input into entry/ add error catching for
+#                                                        invalid entries
