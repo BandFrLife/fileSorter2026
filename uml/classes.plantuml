@@ -32,13 +32,16 @@ class Tag {
 
 class GUI {
     - _file : str
-    + getTag(file : str) : str
-    + setTag(Tag : str)
+    - _tag : str
+
 }
 
 class GuiEventHandler {
     - pickfile() : str
     - pickpath(Tag : str) : str
+    - savefileas(file : str, dir : str)
+    + getTag(file : str) : str
+    + setTag(Tag : str)
 }
 
 GUI --> GuiEventHandler : uses

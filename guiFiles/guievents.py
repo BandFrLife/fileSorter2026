@@ -34,3 +34,15 @@ class Eventhandler ():
         """
         entry.delete(0, tk.END)
         entry.insert(0, askdirectory())
+
+    def savefileas(self, file: tk.Entry,
+                   directory: tk.Entry,
+                   tag: tk.Entry) -> None:
+        """the final function
+
+        Args:
+            file (tk.Entry): the file to save
+            directory (tk.Entry): where to save it
+            tag (tk.Entry): maybe add the tags in teh same function? idk yet
+        """
+        pass

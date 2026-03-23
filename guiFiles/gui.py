@@ -1,7 +1,7 @@
 """main program file
 """
 import tkinter as tk
-from guiFiles.guievents import Eventhandler
+from guievents import Eventhandler
 
 
 window = tk.Tk()
@@ -38,6 +38,24 @@ filePick = tk.Button(window,
                      )
 filePick.bind('<Button-1>', lambda event: Eventhandler.pickfile((), fileEntry))
 filePick.grid(row=3, column=2, padx=5, pady=7)
+
+tagEntry = tk.Entry(window,
+                    textvariable=tk.StringVar(value="input Tags here"),
+                    width=50
+                    )
+tagEntry.grid(row=5, column=1, padx=5, pady=7)
+
+submit = tk.Button(window,
+                   text="Save file with Tags",
+                   anchor="se",
+                   padx=20,  # size of button in x
+                   pady=3  # size of button in y
+                   )
+submit.bind('<Button-1>', lambda event: Eventhandler.savefileas((),
+                                                                fileEntry,
+                                                                pathEntry,
+                                                                tagEntry))
+submit.grid(row=6, column=6, padx=5, pady=7)
 
 window.mainloop()
 
