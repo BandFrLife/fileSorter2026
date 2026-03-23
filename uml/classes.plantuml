@@ -1,0 +1,41 @@
+' UML Diagram for Semester, Course, Tag, and GUI
+
+@startuml
+class Semester {
+    - _year : int
+    - _season : str
+    - _courses : list[tuple[str, int]
+    + year() : int
+    + year(val : int)
+    + season() : str
+    + season(val : str)
+    + courses() : list[tuple[str, int]
+    + courses(arr : list[tuple[str, int])
+    __str__() : str
+}
+
+class Course {
+    - _name : str
+    - _number : int
+    - _dept : Tag
+    + name() : str
+    + name(val : str)
+    + number() : int
+    + number(val : int)
+    + dept() : Tag
+    + dept(val : Tag)
+    __str__() : str
+}
+
+class Tag {
+}
+
+class GUI {
+}
+
+GUI --> Semester : uses
+Semester --> Course : uses
+Semester --> Tag : uses
+Course --> Tag : uses
+
+@enduml
