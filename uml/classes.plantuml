@@ -31,9 +31,18 @@ class Tag {
 }
 
 class GUI {
+    - _file : str
+    + getTag(file : str) : str
+    + setTag(Tag : str)
 }
 
-GUI --> Semester : uses
+class GuiEventHandler {
+    - pickfile() : str
+    - pickpath(Tag : str) : str
+}
+
+GUI --> GuiEventHandler : uses
+GuiEventHandler --> Semester : uses
 Semester --> Course : uses
 Semester --> Tag : uses
 Course --> Tag : uses
