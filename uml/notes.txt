@@ -8,7 +8,7 @@
 
 
 ============================================
-[ ]    Process View
+[ ]    Process View   - Assigned to Brian
 ============================================
         - TYPE: sequence diagram
         - describes runtime behavior
@@ -49,7 +49,7 @@ LEGEND:
 
 
 ============================================
-[ ]    Development View
+[ ]    Development View   - Assigned to Alex
 ============================================
         - TYPE: component diagram
         - modules/packages and dependencies between them
@@ -96,7 +96,7 @@ LEGEND:
 
 
 ============================================
-[ ]    Physical View
+[ ]    Physical View   - Assigned to Parker
 ============================================
         - TYPE: deployment diagram
         - where the system runs
@@ -141,7 +141,7 @@ LEGEND:
 
 
 ============================================
-[ ]    Context View
+[ ]    Context View   - Assigned to Alex
 ============================================
         - TYPE: use case OR short scenarios diagram
         - shows user interaction
