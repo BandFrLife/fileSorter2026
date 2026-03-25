@@ -60,6 +60,10 @@ LEGEND:
                 ex: gui depend on services --- services depends on domain/fs
 
 Shows: modules & dependencies
+_____
+Alex's Understanding
+example would be GUI frontend talks to Semester backend, and Tag Backend
+_____
 ---------------sample-uml--------------------
 @startuml
 package "Frontend" {
@@ -104,6 +108,10 @@ LEGEND:
 
 
 Shows: where software runs physically
+_____
+Alex's Understanding
+example would be User's laptop talks to software, and the file system 
+_____
 ---------------sample-uml--------------------
 @startuml
 node "User Laptop" {
@@ -144,6 +152,11 @@ LEGEND:
             *search docs
 
 Shows: user interactions with system
+_____
+Alex's Understanding
+example would be a student uses the service to attatch a tag(semester, Subject) to a file. 
+A worker would use the server to attatch a tag(Project, Year) to a file
+_____
 ---------------sample-uml--------------------
 @startuml
 actor User
