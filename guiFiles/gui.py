@@ -94,6 +94,29 @@ class GUI ():
 
         window.mainloop()
 
+    def makeerror(self, errmess: str):
+        """make an error window
+
+        Returns:
+            _type_: _description_
+        """
+        errwindow = tk.Tk()
+        errwindow.title("File Sorter v0.1")
+        errwindow.geometry('300x100+75+75')  # window size(x,y), offest
+        for row in range(3):
+            errwindow.rowconfigure(row, weight=2)
+        for col in range(3):
+            errwindow.columnconfigure(col, weight=2)
+        errwindow.rowconfigure(0, weight=1)
+
+        errlabel = tk.Label(errwindow,
+                            text=errmess
+                            )
+        errlabel.grid(row=1, column=1, padx=5, pady=5)
+        errwindow.attributes('-topmost', True)
+
+        return 0
+
 
 def main():
     window = GUI()
@@ -103,4 +126,4 @@ def main():
 if __name__ == "__main__":
     main()
 # add constraints to what can be input into
-#  entry/ add error catching for invalid entries
+# entry/ add error catching for invalid entries

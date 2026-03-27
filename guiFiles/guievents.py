@@ -45,3 +45,8 @@ class Eventhandler ():
             directory (tk.Entry): where to save it
             tag (tk.Entry): maybe add the tags in teh same function? idk yet
         """
+
+    from gui import GUI
+    def errorhandle(self):
+        
+        GUI.makeerror((), "Function not implemented")
