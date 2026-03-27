@@ -1,0 +1,16 @@
+@startuml
+package "Frontend" {
+    [GUI]
+}
+
+package "Backend" {
+    [Semester]
+    [Subject]
+    [Tag]
+}
+
+
+[GUI] --> [Tag]
+[Tag] --> [Semester]
+[Tag] --> [Subject]
+@enduml
