@@ -1,7 +1,14 @@
+PROGRAM = gui.py
+COMPILE = python3
 PLANTUML     = plantuml
 UML_DIR      = uml
 
 .DEFAULT_GOAL = help
+
+.PHONY: run
+run:
+	$(COMPILE) ./guiFiles/$(PROGRAM)
+
 
 # Generate UML images
 .PHONY: create-uml

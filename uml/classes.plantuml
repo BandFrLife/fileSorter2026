@@ -28,6 +28,13 @@ class Course {
 }
 
 class Tag {
+    - _name : str
+    - _description : str
+    + name() : str
+    + name(val : str)
+    + description() : str
+    + description(val : str)
+    __str__() : str
 }
 
 class GUI {

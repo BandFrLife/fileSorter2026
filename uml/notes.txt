@@ -1,0 +1,176 @@
+============================================
+[x]    Logical View
+============================================
+        - TYPE: class diagram
+
+
+
+
+
+============================================
+[ ]    Process View   - Assigned to Brian
+============================================
+        - TYPE: sequence diagram
+        - describes runtime behavior
+            *creating file
+            *tagging file
+            *searching files
+                ex: user clicks button -> gui sends request -> eventHandler determines criteria -> file created -> tags applied
+
+Shows: User → ATM → BankServer → Account
+---------------sample-uml--------------------
+@startuml
+actor User
+participant ATM
+participant BankServer
+participant Account
+
+User -> ATM : insertCard()
+User -> ATM : enterPIN()
+ATM -> BankServer : validatePIN(pin)
+BankServer -> Account : checkPIN(pin)
+Account --> BankServer : valid
+
+User -> ATM : withdraw(100)
+ATM -> BankServer : requestWithdrawal(100)
+BankServer -> Account : debit(100)
+Account --> BankServer : success
+BankServer --> ATM : dispenseCash
+ATM --> User : cash
+@enduml
+---------------------------------------------
+LEGEND:
+    Focus: time + interaction
+    Arrows = messages
+    Top → bottom = time flow
+
+
+
+
+
+============================================
+[ ]    Development View   - Assigned to Alex
+============================================
+        - TYPE: component diagram
+        - modules/packages and dependencies between them
+            *gui module
+            *domain module (semester, course, tag)
+            *service module (manager)
+            *filesystem module
+                ex: gui depend on services --- services depends on domain/fs
+
+Shows: modules & dependencies
+_____
+Alex's Understanding
+example would be GUI frontend talks to Semester backend, and Tag Backend
+_____
+---------------sample-uml--------------------
+@startuml
+package "Frontend" {
+    [Web UI]
+}
+
+package "Backend" {
+    [Order Service]
+    [Payment Service]
+    [Inventory Service]
+}
+
+package "Database" {
+    [DB]
+}
+
+[Web UI] --> [Order Service]
+[Order Service] --> [Payment Service]
+[Order Service] --> [Inventory Service]
+[Payment Service] --> [DB]
+[Inventory Service] --> [DB]
+@enduml
+---------------------------------------------
+LEGEND:
+    Focus: modules + dependencies
+    Boxes = systems/modules
+    Arrows = usage
+
+
+
+
+============================================
+[ ]    Physical View   - Assigned to Parker
+============================================
+        - TYPE: deployment diagram
+        - where the system runs
+            *file tree
+                ex: [pc (root?)]
+                     |
+                     ├──App
+                     └──fs
+
+
+Shows: where software runs physically
+_____
+Alex's Understanding
+example would be User's laptop talks to software, and the file system 
+_____
+---------------sample-uml--------------------
+@startuml
+node "User Laptop" {
+    component "Browser"
+}
+
+node "Web Server" {
+    component "Web App"
+}
+
+node "Database Server" {
+    component "Database"
+}
+
+"Browser" --> "Web App"
+"Web App" --> "Database"
+@enduml
+---------------------------------------------
+LEGEND:
+    Focus: physical environment
+    Nodes = machines
+    Components = software on them
+
+
+
+
+
+
+============================================
+[ ]    Context View   - Assigned to Alex
+============================================
+        - TYPE: use case OR short scenarios diagram
+        - shows user interaction
+            *create semester
+            *add course
+            *create doc
+            *tag doc
+            *search docs
+
+Shows: user interactions with system
+_____
+Alex's Understanding
+example would be a student uses the service to attatch a tag(semester, Subject) to a file. 
+A worker would use the server to attatch a tag(Project, Year) to a file
+_____
+---------------sample-uml--------------------
+@startuml
+actor User
+actor Librarian
+
+User --> (Search Book)
+User --> (Borrow Book)
+User --> (Return Book)
+
+Librarian --> (Add Book)
+Librarian --> (Remove Book)
+@enduml
+---------------------------------------------
+LEGEND:
+    Focus: user goals
+    Actors = roles
+    Ovals = actions
