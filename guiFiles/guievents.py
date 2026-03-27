@@ -7,7 +7,6 @@ from tkinter.filedialog import askopenfilename, askdirectory
 import tkinter as tk
 
 
-
 class Eventhandler ():
     """_summary_
     """
@@ -46,4 +45,3 @@ class Eventhandler ():
             directory (tk.Entry): where to save it
             tag (tk.Entry): maybe add the tags in teh same function? idk yet
         """
-        pass
