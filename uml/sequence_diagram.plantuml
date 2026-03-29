@@ -1,0 +1,29 @@
+@startuml
+actor User
+participant GUI
+participant GuiEventHandler
+participant Semester
+participant Course
+participant Tag
+
+User -> GUI : click "Add File"
+GUI -> GuiEventHandler : pickfile()
+GuiEventHandler --> GUI : selected file path
+
+GUI -> GuiEventHandler : getTag(file)
+GuiEventHandler --> GUI : tag name
+
+GUI -> GuiEventHandler : pickpath(tag)
+GuiEventHandler -> Semester : courses()
+Semester --> GuiEventHandler : list of courses
+GuiEventHandler -> Course : dept()
+Course --> GuiEventHandler : Tag
+GuiEventHandler -> Tag : name()
+Tag --> GuiEventHandler : tag name
+GuiEventHandler --> GUI : destination directory
+
+GUI -> GuiEventHandler : savefileas(file, dir)
+GuiEventHandler --> GUI : file saved
+
+GUI --> User : show success message
+@enduml
