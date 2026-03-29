@@ -1,0 +1,13 @@
+' UML Diagram for Semester, Course, Tag, and GUI
+@startuml
+actor Student
+actor Worker
+
+Student --> (Save File by Subject)
+Student --> (Find Files for Semester)
+
+
+Worker --> (Save File by Project)
+Worker --> (Find File by Year)
+
+@enduml
