@@ -1,0 +1,35 @@
+@startuml Physical_View
+
+title Physical View
+
+' ─────────────────────────────────────────────
+' Physical Node: User's Desktop Machine
+' ─────────────────────────────────────────────
+node "User's Desktop Machine" as Desktop <<device>> {
+
+  node "Operating System\n(Windows / macOS / Linux)" as OS {
+
+    ' ── Frontend Process ──────────────────────
+    component "GUI Process" as GUIProcess <<execution environment>> {
+    }
+
+    ' ── Backend Process ───────────────────────
+    component "Backend Process" as BackendProcess <<execution environment>> {
+    }
+
+    ' ── Local Database ────────────────────────
+    database "Local Database\n" as LocalDB
+  }
+
+}
+
+' ─────────────────────────────────────────────
+' Connections
+' ─────────────────────────────────────────────
+GUIProcess -down-> BackendProcess : User requests
+BackendProcess -down-> LocalDB : Read / Write data
+
+BackendProcess -up-> GUIProcess : Responses / UI updates
+LocalDB -up-> BackendProcess : Query results
+
+@enduml
