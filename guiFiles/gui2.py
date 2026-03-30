@@ -30,20 +30,19 @@ class GUI ():
     def makewindow(self):
         window = tk.Tk()
         window.title("File Sorter v0.2")
-        window.geometry('900x500+75+75')  # window size(x,y), offest
+        window.geometry('900x500+30+30')  # window size(x,y), offest
         for row in range(5):
             window.rowconfigure(row, weight=1)
         for col in range(5):
             window.columnconfigure(col, weight=1)
         window.rowconfigure(0, weight=0)
         window.rowconfigure(2, weight=0)
+        listboxframe = tk.Frame(window)
 
-        listscroll = tk.Scrollbar()
-        filelist = tk.Listbox(window,
+        filelist = tk.Listbox(listboxframe,
                               selectmode='multiple',
-                              yscrollcommand=listscroll.set,
-                              width=100,
-                              height=100)
+                              width=30,
+                              height=10)
 
         dirpick = tk.Button(window,
                             text="Pick Directory",
@@ -71,40 +70,20 @@ class GUI ():
                           text="Welcome to the File Sorter! "
                           "To start with pick your messy directory")
 
-        listscroll = tk.Scrollbar(filelist,
-                                  orient="vertical",
-                                  )
+        scrollbar = tk.Scrollbar(listboxframe,
+                                 orient="vertical",
+                                 command=filelist.yview
+                                 )
+        filelist.config(yscrollcommand=scrollbar.set)
 #       Building the window, order matters
         dirpick.grid(row=1, column=0, padx=3, pady=2, sticky="nw")
         spacer.grid(row=0, column=0, pady=3, sticky="w")
-        filelist.grid(row=1, column=0, padx=3, pady=5, sticky="w")
-        listscroll.pack(pady=10, anchor="e")
+        listboxframe.grid(row=1, column=0, sticky="w")
+        filelist.pack(side="left", fill="y")
+        scrollbar.pack(side="right", fill="y")
         tagdropdown.grid(row=2, column=0, padx=3, pady=5, sticky="w")
         submit.grid(row=5, column=5, padx=3, pady=5, sticky="se")
         window.mainloop()
-
-    def makeerror(self, errmess: str):
-        """make an error window
-
-        Returns:
-            _type_: _description_
-        """
-        errwindow = tk.Tk()
-        errwindow.title("File Sorter v0.1")
-        errwindow.geometry('300x100+75+75')  # window size(x,y), offest
-        for row in range(3):
-            errwindow.rowconfigure(row, weight=2)
-        for col in range(3):
-            errwindow.columnconfigure(col, weight=2)
-        errwindow.rowconfigure(0, weight=1)
-
-        errlabel = tk.Label(errwindow,
-                            text=errmess
-                            )
-        errlabel.grid(row=1, column=1, padx=5, pady=5)
-        errwindow.attributes('-topmost', True)
-
-        return 0
 
 
 def main():
