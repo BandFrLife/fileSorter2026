@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="593px" preserveAspectRatio="none" style="width:427px;height:593px;" version="1.1" viewBox="0 0 427 593" width="427px" zoomAndPan="magnify"><defs><filter height="300%" id="f58ggxg5nbtro" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><text fill="#000000" font-family="sans-serif" font-size="18" lengthAdjust="spacingAndGlyphs" textLength="114" x="162.5" y="19.2419">Physical View</text><!--MD5=[a500572fe9fdc701d0d4c727d9134cca]
+cluster Desktop--><polygon fill="#FFFFFF" filter="url(#f58ggxg5nbtro)" points="22,58.5158,32,48.5158,405,48.5158,405,571.5158,395,581.5158,22,581.5158,22,58.5158" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="395" x2="404" y1="58.5158" y2="49.5158"/><line style="stroke: #000000; stroke-width: 1.5;" x1="22" x2="395" y1="58.5158" y2="58.5158"/><line style="stroke: #000000; stroke-width: 1.5;" x1="395" x2="395" y1="58.5158" y2="581.5158"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="53" x="183" y="76.4818">«device»</text><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="167" x="126" y="95.5497">User's Desktop Machine</text><!--MD5=[d1470243d47c7df7999b6c1d1bb81b90]
+cluster OS--><polygon fill="#FFFFFF" filter="url(#f58ggxg5nbtro)" points="46,128.5158,56,118.5158,381,118.5158,381,547.5158,371,557.5158,46,557.5158,46,128.5158" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="371" x2="380" y1="128.5158" y2="119.5158"/><line style="stroke: #000000; stroke-width: 1.5;" x1="46" x2="371" y1="128.5158" y2="128.5158"/><line style="stroke: #000000; stroke-width: 1.5;" x1="371" x2="371" y1="128.5158" y2="557.5158"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="125" x="147" y="146.4818">Operating System</text><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="188" x="115.5" y="165.5497">(Windows / macOS / Linux)</text><!--MD5=[2504e27f54dd6a435ec61ccdeacc12b2]
+entity LocalDB--><path d="M128.5,484.5158 C128.5,474.5158 189,474.5158 189,474.5158 C189,474.5158 249.5,474.5158 249.5,484.5158 L249.5,531.6517 C249.5,541.6517 189,541.6517 189,541.6517 C189,541.6517 128.5,541.6517 128.5,531.6517 L128.5,484.5158 " fill="#FEFECE" filter="url(#f58ggxg5nbtro)" style="stroke: #000000; stroke-width: 1.5;"/><path d="M128.5,484.5158 C128.5,494.5158 189,494.5158 189,494.5158 C189,494.5158 249.5,494.5158 249.5,484.5158 " fill="none" style="stroke: #000000; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="101" x="138.5" y="513.4818">Local Database</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="0" x="142.5" y="532.5497"/><!--MD5=[aea50d9020875e7a5db71cd5fff7cbf6]
+entity GUIProcess--><rect fill="#FFFFFF" filter="url(#f58ggxg5nbtro)" height="68.1358" style="stroke: #A80036; stroke-width: 1.5;" width="198" x="92" y="180.5158"/><rect fill="#FFFFFF" height="10" style="stroke: #A80036; stroke-width: 1.5;" width="15" x="270" y="185.5158"/><rect fill="#FFFFFF" height="2" style="stroke: #A80036; stroke-width: 1.5;" width="4" x="268" y="187.5158"/><rect fill="#FFFFFF" height="2" style="stroke: #A80036; stroke-width: 1.5;" width="4" x="268" y="191.5158"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="158" x="107" y="215.4818">«execution environment»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="80" x="146" y="234.5497">GUI Process</text><!--MD5=[0c8aef5f4fe674746ddccc1945f61e4e]
+entity BackendProcess--><rect fill="#FFFFFF" filter="url(#f58ggxg5nbtro)" height="68.1358" style="stroke: #A80036; stroke-width: 1.5;" width="198" x="92" y="327.5158"/><rect fill="#FFFFFF" height="10" style="stroke: #A80036; stroke-width: 1.5;" width="15" x="270" y="332.5158"/><rect fill="#FFFFFF" height="2" style="stroke: #A80036; stroke-width: 1.5;" width="4" x="268" y="334.5158"/><rect fill="#FFFFFF" height="2" style="stroke: #A80036; stroke-width: 1.5;" width="4" x="268" y="338.5158"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="158" x="107" y="362.4818">«execution environment»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="112" x="130" y="381.5497">Backend Process</text><!--MD5=[042abb0ffb66fbe8f6ca715f5ca164f5]
+link GUIProcess to BackendProcess--><path d="M120.47,248.8658 C109.83,257.0358 100.32,266.8658 94,278.5158 C84.4,296.2058 93.97,311.6958 110.27,324.3258 " fill="none" id="GUIProcess-&gt;BackendProcess" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="114.55,327.4658,109.6618,318.9157,110.5193,324.5072,104.9279,325.3648,114.55,327.4658" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="83" x="95" y="293.4129">User requests</text><!--MD5=[e3b8a123992cd87a24ef256030aa24a9]
+reverse link GUIProcess to BackendProcess--><path d="M191,253.8658 C191,276.7458 191,305.5158 191,327.4058 " fill="none" id="GUIProcess&lt;-BackendProcess" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="191,248.7858,187,257.7858,191,253.7858,195,257.7858,191,248.7858" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="141" x="192" y="293.4129">Responses / UI updates</text><!--MD5=[06749a1f2a242d0173f5332fcd243917]
+link BackendProcess to LocalDB--><path d="M131.87,395.5258 C121.83,403.9358 112.79,413.9358 107,425.5158 C98.1,443.3058 108.38,459.5358 124.33,472.7458 " fill="none" id="BackendProcess-&gt;LocalDB" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="128.49,476.0458,123.9026,467.3306,124.5649,472.9486,118.9469,473.6108,128.49,476.0458" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="103" x="108" y="440.4129">Read / Write data</text><!--MD5=[de817d5cf04e4de3969428734702dec1]
+reverse link BackendProcess to LocalDB--><path d="M210.93,400.6258 C215.87,414.3158 219.01,429.9758 216,444.5158 C213.92,454.5858 210.13,465.0258 206.04,474.4258 " fill="none" id="BackendProcess&lt;-LocalDB" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="209.04,395.6658,208.5173,405.5008,210.8253,400.3362,215.9899,402.6443,209.04,395.6658" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="80" x="218" y="440.4129">Query results</text><!--MD5=[d1670a39865b1bf7db809ce5fafe8816]
+@startuml Physical_View
+
+title Physical View
+
+node "User's Desktop Machine" as Desktop <<device>> {
+
+  node "Operating System\n(Windows / macOS / Linux)" as OS {
+
+    component "GUI Process" as GUIProcess <<execution environment>> {
+    }
+
+    component "Backend Process" as BackendProcess <<execution environment>> {
+    }
+
+    database "Local Database\n" as LocalDB
+  }
+
+}
+
+GUIProcess -down-> BackendProcess : User requests
+BackendProcess -down-> LocalDB : Read / Write data
+
+BackendProcess -up-> GUIProcess : Responses / UI updates
+LocalDB -up-> BackendProcess : Query results
+
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 03:22:07 MST 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 21.0.10+7-Ubuntu-124.04
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

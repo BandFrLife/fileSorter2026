@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="205px" preserveAspectRatio="none" style="width:794px;height:205px;" version="1.1" viewBox="0 0 794 205" width="794px" zoomAndPan="magnify"><defs><filter height="300%" id="f1ux52bgvu2un6" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[494c489cc4328319247ec2e1625e02a3]
+entity Student--><ellipse cx="196.5" cy="17.5" fill="#FEFECE" filter="url(#f1ux52bgvu2un6)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M196.5,25.5 L196.5,52.5 M183.5,33.5 L209.5,33.5 M196.5,52.5 L183.5,67.5 M196.5,52.5 L209.5,67.5 " fill="none" filter="url(#f1ux52bgvu2un6)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="53" x="170" y="87.9659">Student</text><!--MD5=[823f69c0793ff4acbd80a559420afab7]
+entity Worker--><ellipse cx="610.5" cy="17.5" fill="#FEFECE" filter="url(#f1ux52bgvu2un6)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M610.5,25.5 L610.5,52.5 M597.5,33.5 L623.5,33.5 M610.5,52.5 L597.5,67.5 M610.5,52.5 L623.5,67.5 " fill="none" filter="url(#f1ux52bgvu2un6)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="48" x="586.5" y="87.9659">Worker</text><ellipse cx="90.415" cy="172.783" fill="#FEFECE" filter="url(#f1ux52bgvu2un6)" rx="84.415" ry="19.283" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="132" x="24.415" y="178.817">Save File by Subject</text><ellipse cx="302.6369" cy="173.0274" fill="#FEFECE" filter="url(#f1ux52bgvu2un6)" rx="93.1369" ry="21.0274" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="153" x="226.1369" y="179.0613">Find Files for Semester</text><ellipse cx="513.3023" cy="172.9605" fill="#FEFECE" filter="url(#f1ux52bgvu2un6)" rx="82.8023" ry="18.9605" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="128" x="449.3023" y="178.9944">Save File by Project</text><ellipse cx="707.2833" cy="173.0567" fill="#FEFECE" filter="url(#f1ux52bgvu2un6)" rx="75.7833" ry="17.5567" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="110" x="652.2833" y="179.0906">Find File by Year</text><!--MD5=[a40b3966bec3e839488000bda7df3230]
+link Student to Save File by Subject--><path d="M169.75,81.53 C151.28,102.62 127.11,130.21 110.34,149.35 " fill="none" id="Student-&gt;Save File by Subject" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="106.67,153.54,115.6057,149.3984,109.9615,149.7762,109.5837,144.132,106.67,153.54" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[5eb4f97f64a0dbbd973d5483128e39c3]
+link Student to Find Files for Semester--><path d="M223.25,81.53 C241.27,102.1 264.7,128.85 281.4,147.92 " fill="none" id="Student-&gt;Find Files for Semester" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="285.07,152.1,282.1361,142.6983,281.7704,148.3433,276.1254,147.9776,285.07,152.1" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[59a76cdc9d3d0068db57895eb92c1a8d]
+link Worker to Save File by Project--><path d="M586.27,81.22 C569.16,102.57 546.62,130.69 531.18,149.94 " fill="none" id="Worker-&gt;Save File by Project" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="527.81,154.15,536.5618,149.6327,530.9387,150.2498,530.3215,144.6268,527.81,154.15" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[34df2c9da623a1c7a7a622abc1f01458]
+link Worker to Find File by Year--><path d="M634.73,81.22 C652.26,103.09 675.48,132.06 690.93,151.33 " fill="none" id="Worker-&gt;Find File by Year" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="694.3,155.53,691.7885,146.0068,691.1713,151.6298,685.5482,151.0127,694.3,155.53" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[ee9e460b55f53d717a839d04af0e0c39]
+@startuml
+actor Student
+actor Worker
+
+Student - -> (Save File by Subject)
+Student - -> (Find Files for Semester)
+
+
+Worker - -> (Save File by Project)
+Worker - -> (Find File by Year)
+
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 03:22:07 MST 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 21.0.10+7-Ubuntu-124.04
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>
