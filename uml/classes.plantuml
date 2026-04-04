@@ -4,13 +4,17 @@
 class Semester {
     - _year : int
     - _season : str
-    - _courses : list[tuple[str, int]
+    - _courses : list[Course]
     + year() : int
-    + year(val : int)
+    + year(val: int)
     + season() : str
-    + season(val : str)
-    + courses() : list[tuple[str, int]
-    + courses(arr : list[tuple[str, int])
+    + season(val: str)
+    + courses() : list[Course]
+    + courses(val: list[Course])
+    + print_courses() : None
+    + add_course(course: Course)
+    + remove_course(course: Course)
+    + clear_courses() : None
     __str__() : str
 }
 
