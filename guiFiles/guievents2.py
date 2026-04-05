@@ -5,6 +5,7 @@ Returns:
 """
 from tkinter.filedialog import askopenfilename, askdirectory
 import os
+import datetime
 import tkinter as tk
 
 
@@ -46,6 +47,20 @@ class Eventhandler ():
             directory (tk.Entry): where to save it
             tag (tk.Entry): maybe add the tags in teh same function? idk yet
         """
+
+    def prepfilestruct(self):
+        semesterlist: list = ["Fall", "J-term", "Spring", "Summer"]
+        date = datetime.datetime.now()
+        year = date.strftime("%Y")
+        for semester in semesterlist:
+            try:
+                yearsem = year+"/"+semester
+                os.mkdir(yearsem)
+                print(f"Directory '{yearsem}' created successfully.")
+            except FileExistsError:
+                print(f"Directory '{yearsem}' already exists.")
+            except PermissionError:
+                print(f"Permission denied: Unable to create '{yearsem}'.")
 
     # from gui import GUI
 

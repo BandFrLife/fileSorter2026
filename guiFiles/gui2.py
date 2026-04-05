@@ -25,7 +25,8 @@ class GUI ():
         return cls._instance
 
     def __init__(self):
-        self.tagoptions = ["Math", "English", "Science", "ComputerScience"]
+        self.tagoptions = ["Math", "English", "Labs", "ComputerScience"]
+        self.semester = ["None", "Fall", "J-term", "Spring", "Summer"]
 
     def makewindow(self):
         window = tk.Tk()
@@ -37,14 +38,16 @@ class GUI ():
             window.columnconfigure(col, weight=1)
         window.rowconfigure(0, weight=0)
         window.rowconfigure(2, weight=0)
-        listboxframe = tk.Frame(window)
+        listboxframe = tk.Frame(window)  # for scrollable listbox
+        tagdropdownframe = tk.Frame(window)  # for paired Tagdropdown and label
+        semdropdownframe = tk.Frame(window)  # for paired Semdropdown and label
 
         filelist = tk.Listbox(listboxframe,
                               selectmode='multiple',
                               width=30,
                               height=10)
 
-        dirpick = tk.Button(window,
+        dirpick = tk.Button(listboxframe,
                             text="Pick Directory",
                             anchor="ne",
                             padx=15,  # size of button in x
@@ -53,12 +56,19 @@ class GUI ():
         dirpick.bind('<Button-1>', lambda event: Eventhandler.populatelist
                      ((), filelist))
 
-        tagdropdown = tkk.Combobox(window,
+        tagdropdown = tkk.Combobox(tagdropdownframe,
                                    values=self.tagoptions,
                                    state="readonly",
                                    width=20
                                    )
-        tagdropdown.set("Select a Subject")
+        tagdropdown.set("Select a Semester")
+
+        semdropdown = tkk.Combobox(semdropdownframe,
+                                   values=self.semester,
+                                   state="readonly",
+                                   width=20
+                                   )
+        semdropdown.set("Select a Subject")
 
         submit = tk.Button(window,
                            text="Save file",
@@ -70,23 +80,36 @@ class GUI ():
                           text="Welcome to the File Sorter! "
                           "To start with pick your messy directory")
 
+        taglabel = tk.Label(tagdropdownframe,
+                            text="Pick your class")
+
+        semlabel = tk.Label(semdropdownframe,
+                            text="Pick your semester")
+
         scrollbar = tk.Scrollbar(listboxframe,
                                  orient="vertical",
                                  command=filelist.yview
                                  )
         filelist.config(yscrollcommand=scrollbar.set)
+
 #       Building the window, order matters
-        dirpick.grid(row=1, column=0, padx=3, pady=2, sticky="nw")
         spacer.grid(row=0, column=0, pady=3, sticky="w")
         listboxframe.grid(row=1, column=0, sticky="w")
+        dirpick.pack(side="top")
         filelist.pack(side="left", fill="y")
         scrollbar.pack(side="right", fill="y")
-        tagdropdown.grid(row=2, column=0, padx=3, pady=5, sticky="w")
+        tagdropdownframe.grid(row=2, column=0, padx=3, pady=5, sticky="w")
+        tagdropdown.pack(side="bottom")
+        taglabel.pack(side="top")
+        semdropdownframe.grid(row=3, column=0, padx=3, pady=5, sticky="w")
+        semdropdown.pack(side="bottom")
+        semlabel.pack(side="top")
         submit.grid(row=5, column=5, padx=3, pady=5, sticky="se")
         window.mainloop()
 
 
 def main():
+    Eventhandler.prepfilestruct(())
     window = GUI()
     window.makewindow()
 
