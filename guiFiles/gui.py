@@ -125,5 +125,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-# add constraints to what can be input into
+# add constraints to what can be input
 # entry/ add error catching for invalid entries
+# add quick select of files in a directory for less load on the user

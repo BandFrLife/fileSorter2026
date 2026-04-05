@@ -4,6 +4,7 @@ Returns:
     None: Nada, Nothing
 """
 from tkinter.filedialog import askopenfilename, askdirectory
+import os
 import tkinter as tk
 
 
@@ -11,7 +12,7 @@ class Eventhandler ():
     """_summary_
     """
 
-    def pickfile(self, entry: tk.Entry) -> str:
+    def pickfile(self, entry: tk.Entry) -> None:
         """_summary_
 
         Args:
@@ -23,17 +24,17 @@ class Eventhandler ():
         entry.delete(0, tk.END)
         entry.insert(0, askopenfilename())
 
-    def pickpath(self, entry: tk.Entry) -> str:
-        """_summary_
+    def populatelist(self, box: tk.Listbox) -> None:
+        """populates a ListBox with all the files in dir
 
         Args:
-            entry (tk.Entry): _description_
+            entry (tk.ListBox): a ListBox to  input the data to
 
-        Returns:
-            str: _description_
         """
-        entry.delete(0, tk.END)
-        entry.insert(0, askdirectory())
+        mylist = os.listdir(askdirectory())
+        box.delete(0, tk.END)
+        for file in mylist:
+            box.insert(tk.END, file)
 
     def savefileas(self, file: tk.Entry,
                    directory: tk.Entry,
