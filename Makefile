@@ -1,4 +1,4 @@
-PROGRAM = gui.py
+PROGRAM = gui2.py
 COMPILE = python3
 PLANTUML     = plantuml
 UML_DIR      = uml
@@ -29,6 +29,7 @@ help:
 	@echo ""
 	@echo "Available commands:"
 	@echo "  make               - Make help"
+	@echo "  make run           - run program"
 	@echo "  make help          - Display this menu"
 	@echo "  make create-uml    - Generate .svg from .puml"
 	@echo "  make clean         - Remove unnecesary py files/dirs"
