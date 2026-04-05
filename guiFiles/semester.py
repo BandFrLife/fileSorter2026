@@ -28,7 +28,7 @@ class Semester:
             season:
             courses:
         """
-        if season not in {"None", "Summer", "Winter", "Fall", "J-term"}:
+        if season not in {"None", "Summer", "Spring", "Fall", "J-term"}:
             raise ValueError("Season must be: blank, Summer, Spring, Fall, or J-term.")
 
         now = datetime.now()
