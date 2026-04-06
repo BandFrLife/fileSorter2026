@@ -3,7 +3,7 @@
 Returns:
     None: Nada, Nothing
 """
-from tkinter.filedialog import askopenfilename, askdirectory
+from tkinter.filedialog import askdirectory, asksaveasfile
 import os
 import datetime
 import tkinter as tk
@@ -12,18 +12,6 @@ import tkinter as tk
 class Eventhandler ():
     """_summary_
     """
-
-    def pickfile(self, entry: tk.Entry) -> None:
-        """_summary_
-
-        Args:
-            entry (tk.Entry): _description_
-
-        Returns:
-            str: _description_
-        """
-        entry.delete(0, tk.END)
-        entry.insert(0, askopenfilename())
 
     def populatelist(self, box: tk.Listbox) -> None:
         """populates a ListBox with all the files in dir
@@ -37,16 +25,24 @@ class Eventhandler ():
         for file in mylist:
             box.insert(tk.END, file)
 
-    def savefileas(self, file: tk.Entry,
-                   directory: tk.Entry,
-                   tag: tk.Entry) -> None:
+    def savefileas(self, filelist: tk.Listbox,
+                   directory: str) -> None:
         """the final function
 
         Args:
             file (tk.Entry): the file to save
-            directory (tk.Entry): where to save it
-            tag (tk.Entry): maybe add the tags in teh same function? idk yet
+            directory (str): where to save it
+            tag (str): maybe add the tags in teh same function? idk yet
         """
+        # Currently falsifies file saving, needs adjustment
+        for i in filelist.curselection():
+            file = (filelist.get(i))
+            asksaveasfile(
+                mode="w",
+                confirmoverwrite=True,
+                initialdir=directory,
+                initialfile=file
+            )
 
     def prepfilestruct(self):
         semesterlist: list = ["Fall", "J-term", "Spring", "Summer"]

@@ -61,14 +61,14 @@ class GUI ():
                                    state="readonly",
                                    width=20
                                    )
-        tagdropdown.set("Select a Semester")
+        tagdropdown.set("Select a Class")
 
         semdropdown = tkk.Combobox(semdropdownframe,
                                    values=self.semester,
                                    state="readonly",
                                    width=20
                                    )
-        semdropdown.set("Select a Subject")
+        semdropdown.set("Select a Semester")
 
         submit = tk.Button(window,
                            text="Save file",
@@ -76,6 +76,8 @@ class GUI ():
                            padx=20,  # size of button in x
                            pady=3  # size of button in y
                            )
+        submit.bind('<Button-1>', lambda event: Eventhandler.savefileas
+                    ((), filelist, ("2026/"+semdropdown.get())))
         spacer = tk.Label(window,
                           text="Welcome to the File Sorter! "
                           "To start with pick your messy directory")
