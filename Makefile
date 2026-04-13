@@ -1,7 +1,7 @@
-PROGRAM = gui2.py
-COMPILE = python3
-PLANTUML     = plantuml
-UML_DIR      = uml
+PROGRAM  := gui2.py
+COMPILE  := python3
+PLANTUML := plantuml
+UML_DIR  := uml
 
 .DEFAULT_GOAL = help
 
@@ -19,6 +19,15 @@ create-uml:
 clean:
 	# remove all caches recursively
 	rm -rf `find . -type d -name __pycache__` # remove all pycache
+	rm -rf `find . -type d -name .pytest_cache` # remove all pytest cache
+	rm -rf `find . -type d -name .mypy_cache` # remove all mypy cache
+	rm -rf `find . -type d -name .hypothesis` # remove all hypothesis cache
+	rm -rf `find . -name .coverage` # remove all coverage cache
+
+.PHONY: clean-dirs
+clean-dirs:
+	# remove all caches recursively
+	rm -rf `find . -type d -name '20*'` # remove all pycache
 	rm -rf `find . -type d -name .pytest_cache` # remove all pytest cache
 	rm -rf `find . -type d -name .mypy_cache` # remove all mypy cache
 	rm -rf `find . -type d -name .hypothesis` # remove all hypothesis cache
