@@ -48,6 +48,13 @@ class Eventhandler ():
         semesterlist: list = ["Fall", "J-term", "Spring", "Summer"]
         date = datetime.datetime.now()
         year = date.strftime("%Y")
+        try:
+            os.mkdir(year)
+            print(f"Directory '{year}' created successfully.")
+        except FileExistsError:
+            print(f"Directory '{year}' already exists.")
+        except PermissionError:
+            print(f"Permission denied: Unable to create '{year}'.")
         for semester in semesterlist:
             try:
                 yearsem = year+"/"+semester
