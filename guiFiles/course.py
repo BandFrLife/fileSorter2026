@@ -1,6 +1,7 @@
 """
     Course class for the file sorter
 """
+from guiFiles.tags import Tag
 #class Tag:
 #    def __init__(self) -> None:
 #        self.dept = "CSCI"
@@ -41,6 +42,8 @@ class Course:
     @name.setter
     def name(self, val: str) -> None:
         """ Setter """
+        if val == "":
+            raise ValueError("Class: Course, must give a name.")
         self._name = val
 
     @property
@@ -52,17 +55,21 @@ class Course:
     @number.setter
     def number(self, val: int) -> None:
         """ Setter """
+        if val < 90 or val > 499:
+            raise ValueError("Class: Course, number must be between 90 & 499.")
         self._number = val
 
     @property
     def dept(self) -> Tag:
         """Getter
         """
-        return self._dept
+        return self._dept.name
 
     @dept.setter
     def dept(self, val: Tag) -> None:
         """ Setter """
+        if len(val.name) != 4:
+            raise ValueError("Class: Course, Tag.name must fit format of 'ABCD'.")
         self._dept = val
 
     def __str__(self) -> str:

@@ -38,3 +38,6 @@ class Tag:
         Getter method for description
         '''
         return self._desc
+
+    def __str__(self) -> str:
+        return f"{self.name}"
