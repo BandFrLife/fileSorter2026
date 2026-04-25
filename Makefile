@@ -1,11 +1,11 @@
-PROGRAM   := gui2.py
+PROGRAM   := gui.py
 COURSE    := course.py
 COMPILE   := python3
 PLANTUML  := plantuml
 UML_DIR   := uml
 PYTEST    := pytest
 TEST      := unittest
-SRC_DIR   := guiFiles
+SRC_DIR   := src
 TEST_DIR  := tests
 TEST_FILE := tests/test_*.py
 
@@ -13,7 +13,7 @@ TEST_FILE := tests/test_*.py
 
 .PHONY: run
 run:
-	$(COMPILE) ./guiFiles/$(PROGRAM)
+	$(COMPILE) ./$(SRC_DIR)/$(PROGRAM)
 
 
 # Generate UML images
@@ -30,6 +30,11 @@ clean:
 	rm -rf `find . -type d -name .hypothesis` # remove all hypothesis cache
 	rm -rf `find . -name .coverage` # remove all coverage cache
 
+PHONY: clean-dirs
+clean-dirs:
+	# remove all Directories in CMU recursively
+	rm -rf `find . -type d -name '20*'` # remove all pycache
+
 .PHONY: run-tests
 run-tests: run-unittest run-pytest
 
@@ -45,15 +50,6 @@ run-pytest:
 docker:
 	bash ./run-docker.sh
 
-PHONY: clean-dirs
-clean-dirs:
-	# remove all caches recursively
-	rm -rf `find . -type d -name '20*'` # remove all pycache
-	rm -rf `find . -type d -name .pytest_cache` # remove all pytest cache
-	rm -rf `find . -type d -name .mypy_cache` # remove all mypy cache
-	rm -rf `find . -type d -name .hypothesis` # remove all hypothesis cache
-	rm -rf `find . -name .coverage` # remove all coverage cache
-
 ## Show available Makefile commands
 help:
 	@echo ""
@@ -64,4 +60,5 @@ help:
 	@echo "  make help          - Display this menu"
 	@echo "  make create-uml    - Generate .svg from .puml"
 	@echo "  make clean         - Remove unnecesary py files/dirs"
+	@echo "  make clean-dirs    - Remove all program created files/dirs"
 
