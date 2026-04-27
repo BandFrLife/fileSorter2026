@@ -1,69 +1,76 @@
-"""Main Program
-   Updated with the help of ChatGPT
+"""main program file
 """
+import re
 import tkinter as tk
-from tkinter import ttk as tkk
 import typing
+from tkinter import ttk as tkk
 from typing import Optional
-from guievents2 import Eventhandler
-from directory_model import DirectoryModel as DM, os
-import subprocess
+from pathlib import Path
+from guievents import Eventhandler
+from semester import Semester
+from course import Course
+from tags import Tag
 
 
 class GUI ():
-    """ Singletone GUI class
-    """
     _instance: Optional["GUI"] = None
 
-    def __new__(cls,
-                *args: tuple[typing.Any, ...],
+    SEMESTERS = ["Fall", "J-term", "Spring", "Summer"]
+
+    def __new__(cls, *args: tuple[typing.Any, ...],
                 **kwargs: dict[typing.Any, typing.Any]
-    ) -> "GUI":
+                ) -> "GUI":
         """Creates a new instance of the class if not already created.
-           Enforces Singleton pattern.
+
+        Enforces Singleton pattern.
 
         Returns:
-            Solution: class instance of GUI
+            Solution: class instance
         """
         if not cls._instance:
             cls._instance = super().__new__(cls)
         return cls._instance
 
     def __init__(self):
-        self.classoptions = ["Math", "English", "Labs", "ComputerScience"]
-        self.semester = ["Fall", "J-term", "Spring", "Summer"]
+        """ Setups up attributes for the gui window.
+            Gathers up-to-date information of files,
+            directories, and current status.
+        """
+        self.project_root = Path(__file__).resolve().parent.parent
+        self.cmu_root = self.project_root / "CMU"
 
-        self.selected_year = ""
-        self.selected_semester = ""
-        self.selected_class = ""
-        self.current_class_path = ""
+        if self.dir_empty():
+            Eventhandler.prepfilestruct(())
 
-        self.dir_model = DM()
+        self.tagoptions = []
+        self.semester = self.get_semesters()
+        self.years = []
+        self.classes: list[[str],[str]] = []
 
-        self.yeardropdown = None
+        self.current_year = str(Eventhandler.get_current_year(self))
+        self.current_semester = Eventhandler.get_current_semester(self)
+        self.window = None
+        #self.listboxframe = None
+        self.dirdropdownframe = None
+        self.semdropdownframe = None
+        self.classdropdownframe = None
+
+        #self.filelist = None
+        self.dirdropdown = None
         self.semdropdown = None
         self.classdropdown = None
-        self.classitemsbox = None
+        #self.submit = None
+        self.spacer = None
+        self.dirlabel = None
+        self.semlabel = None
+        self.classlabel = None
 
     def makewindow(self):
-        """
-        """
-        #top level window
+        """Creates and updates everything related to the output window."""
         window = tk.Tk()
         window.title("File Sorter v0.2")
+
         window.geometry('900x500+30+30')  # window size(x,y), offest
-
-        # get up-to-date information
-        years = self.dir_model.get_dirs("CMU")
-        current_year = self.dir_model.get_current_year()
-        current_semester = self.dir_model.get_current_semester()
-
-        # update class based on up-to-date information
-        self.selected_year = current_year
-        self.selected_semester = current_semester
-
-        #Config for grid layout
-        #mostly expands some are static
         for row in range(5):
             window.rowconfigure(row, weight=1)
         for col in range(5):
@@ -71,264 +78,239 @@ class GUI ():
         window.rowconfigure(0, weight=0)
         window.rowconfigure(2, weight=0)
 
-        #frames group related widgets
-        #keeps label+dropdown pairs organized
-        yeardropdownframe = tk.Frame(window)  # paired Semdropdown and label
-        semdropdownframe = tk.Frame(window)  # paired Semdropdown and label
-        classdropdownframe = tk.Frame(window)  # paired Tagdropdown and label
-        classitemsframe = tk.Frame(window)  # listbox for class directory
+        self.dirdropdownframe = tk.Frame(window)  # for scrollable listbox
+        self.semdropdownframe = tk.Frame(window)  # for paired Semdropdown and label
+        self.classdropdownframe = tk.Frame(window) # for paired classdropdown and label
 
-        # year dropdown
-        self.yeardropdown = tkk.Combobox(yeardropdownframe,
-                                   values=years,
+        self.dirdropdown = tkk.Combobox(self.dirdropdownframe,
+                                   values=self.get_years(),
                                    state="readonly",
                                    width=20
                                    )
+        self.dirdropdown.set(self.current_year)
+        self.dirdropdown.bind("<<ComboboxSelected>>", self.update_semesters)
 
-        # sem dropdown
-        self.semdropdown = tkk.Combobox(semdropdownframe,
+        self.semdropdown = tkk.Combobox(self.semdropdownframe,
                                    values=[],
                                    state="readonly",
                                    width=20
                                    )
-
-        # class dropdown
-        self.classdropdown = tkk.Combobox(classdropdownframe,
-                                   values=[],
-                                   state="readonly",
-                                   width=20
-                                   )
-
-        # class file listbox
-        self.classitemsbox = tk.Listbox(classitemsframe,
-                                selectmode="single",
-                                width=30,
-                                height=10
-                                )
-
-        # scrollbar for classitem listbox
-        classscrollbar = tk.Scrollbar(classitemsframe,
-                                orient="vertical",
-                                command=self.classitemsbox.yview
-                                )
-        self.classitemsbox.config(yscrollcommand=classscrollbar.set)
-
-        # up button (move up the dir)
-        self.upbutton = tk.Button(classitemsframe,
-                            text="../",
-                            command=self.go_up_dir
-                            )
-
-        # set values for dropdown menus (with default)
-        if current_year in years:
-            self.yeardropdown.set(current_year)
-        else:
-            self.yeardropdown.set("Select a year")
-
-        self.update_semesters()
-
-        # bind the values
-        self.yeardropdown.bind("<<ComboboxSelected>>", self.update_semesters)
+        self.semdropdown.set(self.current_semester)
         self.semdropdown.bind("<<ComboboxSelected>>", self.update_classes)
-        self.classdropdown.bind("<<ComboboxSelected>>", self.update_class_items)
-        self.classitemsbox.bind("<Double-1>", self.open_selected_item)
 
-        # update pack calls
-        self.yeardropdown.pack(side="bottom")
-        self.semdropdown.pack(side="bottom")
-        self.classdropdown.pack(side="bottom")
+        self.classdropdown = tkk.Combobox(self.classdropdownframe,
+                                   values=self.tagoptions,
+                                   state="readonly",
+                                   width=20
+                                   )
+        self.classdropdown.set("Select a Class")
 
-        # save button
-        submit = tk.Button(window,
-                           text="Save file",
-                           anchor="se",
-                           padx=20,  # size of button in x
-                           pady=3  # size of button in y
-                           )
+        self.init_dropdowns()
 
-        # intro text on win
+        #submit = tk.Button(window,
+        #                   text="Save file",
+        #                   anchor="se",
+        #                   padx=20,  # size of button in x
+        #                   pady=3  # size of button in y
+        #                   )
+        #submit.bind('<Button-1>', lambda event: Eventhandler.savefileas
+        #            ((), filelist, ("2026/"+self.semdropdown.get())))
         spacer = tk.Label(window,
                           text="Welcome to the File Sorter! "
                           "To start with pick your messy directory")
 
-        # dropdown labels
-        yearlabel = tk.Label(yeardropdownframe,
+        dirlabel = tk.Label(self.dirdropdownframe,
                             text="Pick your year")
 
-        semlabel = tk.Label(semdropdownframe,
+        semlabel = tk.Label(self.semdropdownframe,
                             text="Pick your semester")
 
-        classlabel = tk.Label(classdropdownframe,
+        classlabel = tk.Label(self.classdropdownframe,
                             text="Pick your class")
 
-        classitemslabel = tk.Label(classitemsframe,
-                            text="Files in selected class")
-
-        # top message
+#       Building the window, order matters
         spacer.grid(row=0, column=0, pady=3, sticky="w")
+        #listboxframe.grid(row=1, column=0, sticky="w")
+        self.dirdropdown.pack(side="top")
+        #filelist.pack(side="left", fill="y")
 
-        # year section below title
-        yeardropdownframe.grid(row=1, column=0, padx=30, pady=5, sticky="w")
-        yearlabel.pack(side="top")
+        self.dirdropdownframe.grid(row=1, column=0, padx=30, pady=5, sticky="w")
+        self.dirdropdown.pack(side="bottom")
+        dirlabel.pack(side="top")
 
-        # sem section below year
-        semdropdownframe.grid(row=2, column=0, padx=30, pady=5, sticky="w")
+        self.semdropdownframe.grid(row=2, column=0, padx=30, pady=5, sticky="w")
+        self.semdropdown.pack(side="bottom")
         semlabel.pack(side="top")
 
-        # class section below semester
-        classdropdownframe.grid(row=3, column=0, padx=30, pady=5, sticky="w")
+        self.classdropdownframe.grid(row=3, column=0, padx=30, pady=5, sticky="w")
         self.classdropdown.pack(side="bottom")
         classlabel.pack(side="top")
 
-        # packing
-        self.upbutton.pack(side="top")
-        classitemsframe.grid(row=4, column=0, padx=90, pady=5, sticky="w")
-        classitemslabel.pack(side="top")
-        self.classitemsbox.pack(side="left", fill="y")
-        classscrollbar.pack(side="right", fill="y")
-
-        #lower right save button
-        submit.grid(row=5, column=5, padx=30, pady=5, sticky="se")
-
-        #start tk loop event
+        #submit.grid(row=5, column=5, padx=3, pady=5, sticky="se")
         window.mainloop()
 
-    def load_years(self) -> list[str]:
-        """Loads directories labeled by year.
-           From CMU/.
+    def scan_dir(self) -> tuple[list[Path],list[str]]:
+        """ Recursively finds all files and directories inside CMU.
+            Returns a list of Path objects.
+
+        Returns:
+            tuple[list[Path],list[str]]: (list of directories, list of files)
         """
-        return self.dir_model.get_dirs("CMU")
+        if not self.cmu_root.exists():
+            return []
 
-    def load_semesters(self, year: str) -> list[str]:
-        """Loads directories labeled by semester.
-           From CMU/{given_year}/.
+        data = list(self.cmu_root.rglob("*"))
+
+        files = []
+        dirs = []
+
+        for item in data:
+            if item.is_dir():
+                dirs.append(item)
+            elif item.is_file():
+                files.append(str(item))
+
+        return (dirs,files)
+
+    def dir_empty(self) -> bool:
+        """Check if a directory is empty.
+
+        Returns:
+            bool: True if no present dirs, False if dirs present.
         """
-        return self.dir_model.get_dirs(f"CMU/{year}")
+        directories, _ = self.scan_dir()
+        return not directories
 
-    def load_classes(self, year: str, semester: str) -> list[str]:
-        """Loads any directories labeled by class.
-           CMU/{given_year}/{given_semester}/.
+    def get_semesters(self) -> list[Semester]:
+        """Check root directory recursively for subdirectories.
+           Includes only semesters directories.
+
+        Returns:
+            list[Semester]: list of all semesters found.
         """
-        return self.dir_model.get_dirs(f"CMU/{year}/{semester}")
+        semesters = []
 
-    def load_class_items(self, year: str, semester: str, classname: str) -> list[str]:
-        """Loads files and directories from a class directory."""
-        return self.dir_model.get_items(f"CMU/{year}/{semester}/{classname}")
+        for year_dir in self.cmu_root.iterdir():
+            if not year_dir.is_dir() or not year_dir.name.isdigit():
+                continue
 
-    def update_semesters(self, event=None) -> None:
-        year = self.yeardropdown.get()
-        self.selected_year = year
+            year = int(year_dir.name)
 
-        semesters = self.load_semesters(year)
+            for sem_dir in year_dir.iterdir():
+                if not sem_dir.is_dir():
+                    continue
+
+                courses = []
+
+                for course_dir in sem_dir.iterdir():
+                    if not course_dir.is_dir():
+                        continue
+
+                    valid = re.fullmatch(r"([A-Z]{4})(\d{3})", course_dir.name)
+                    if valid:
+                        tag = Tag(name=valid.group(1))
+                        course = Course(course_dir.name, int(valid.group(2)), tag)
+                        courses.append(course)
+
+                semesters.append(
+                    Semester(
+                        year=year,
+                        semester=sem_dir.name,
+                        courses=courses,
+                        path=str(sem_dir)))
+
+        return semesters
+
+    def get_years(self) -> list[str]:
+        """Check root directory recursively for subdirectories.
+           Includes only year directories.
+
+        Returns:
+            list[str]: list of all year directories found.
+        """
+        dirs, _ = self.scan_dir()
+        dirs.sort()
+        years = []
+
+        for d in dirs:
+            try:
+                int(d.name)
+                years.append(d.name)
+            except:
+                pass
+
+        return years
+
+
+    def init_dropdowns(self) -> None:
+        """Initialize the dropdown boxes.
+        """
+        years = self.get_years()
+
+        #self.dirdropdown["values"] = years
+
+        if self.current_year in years:
+            self.dirdropdown.set(self.current_year)
+        elif years:
+            self.dirdropdown.set(years[0])
+        else:
+            #self.dirdropdown.set("Pick a year")
+            return
+
+        self.update_semesters(initial=True)
+
+    def update_semesters(self, event=None, initial: bool = False) -> None:
+        """Updates the dropdown lists for semester."""
+        year = self.dirdropdown.get()
+        semesters = [
+            sem.semester
+            for sem in self.semester
+            if str(sem.year) == str(year)
+        ]
+
         self.semdropdown["values"] = semesters
 
-        current_semester = self.dir_model.get_current_semester()
-        if current_semester in semesters:
-            self.semdropdown.set(current_semester)
-            self.selected_semester = current_semester
+        if initial and self.current_semester in semesters:
+            self.semdropdown.set(self.current_semester)
         elif semesters:
             self.semdropdown.set(semesters[0])
-            self.selected_semester = semesters[0]
         else:
-            self.semdropdown.set("Select a Semester")
-            self.selected_semester = ""
+            self.semdropdown.set("Pick a semester")
+            return
 
         self.update_classes()
-        self.update_class_items()
 
     def update_classes(self, event=None) -> None:
-        year = self.yeardropdown.get()
+        """Updates the dropdown lists for class."""
+        year = int(self.dirdropdown.get())
         semester = self.semdropdown.get()
 
-        classes = self.load_classes(year, semester)
+        classes = []
+
+        for sem in self.semester:
+            if sem.year == year and sem.semester == semester:
+                classes = [course.name for course in sem.courses]
+                break
+
         self.classdropdown["values"] = classes
+        self.classdropdown.set("Pick a class")
 
-        if classes:
-            classname = classes[0]
-            self.classdropdown.set(classname)
-            self.selected_class = classname
-            self.current_class_path = os.path.join("CMU", year, semester, classname)
-        else:
-            self.classdropdown.set("Select a Class")
-            self.selected_class = ""
-            self.current_class_path = ""
+    def add_class(self) -> None:
+        """Adds a new class directory to a semester directory."""
+        pass
 
-        self.update_class_items()
+    def add_tag(self) -> None:
+        """Adds a new tag to class attribute self.tagoptions."""
+        pass
 
-    def update_class_items(self, event=None) -> None:
-        self.classitemsbox.delete(0, tk.END)
-
-        year = self.yeardropdown.get()
-        semester = self.semdropdown.get()
-        classname = self.classdropdown.get()
-
-        if year == "Select a year" or not year:
-            self.current_class_path = ""
-            return
-        if semester == "Select a Semester" or not semester:
-            self.current_class_path = ""
-            return
-        if classname == "Select a Class" or not classname:
-            self.current_class_path = ""
-            return
-
-        class_root = os.path.join("CMU", year, semester, classname)
-
-        if not self.current_class_path:
-            self.current_class_path = class_root
-
-        items = self.dir_model.get_items(self.current_class_path)
-
-        for item in items:
-            full_path = os.path.join(self.current_class_path, item)
-            if os.path.isdir(full_path):
-                self.classitemsbox.insert(tk.END, f"{item}/")
-            else:
-                self.classitemsbox.insert(tk.END, item)
-
-    def open_selected_item(self, event=None) -> None:
-        selection = self.classitemsbox.curselection()
-        if not selection:
-            return
-
-        name = self.classitemsbox.get(selection[0]).rstrip("/")
-        next_path = os.path.join(self.current_class_path, name)
-
-        if os.path.isdir(next_path):
-            self.current_class_path = next_path
-            self.update_class_items()
-        else:
-            subprocess.run(["xdg-open", next_path], check=False)
-
-    def go_up_dir(self) -> None:
-        if not self.current_class_path:
-            return
-
-        parent = os.path.dirname(self.current_class_path)
-
-        # prevent going above the selected class root if you want
-        class_root = os.path.join(
-            "CMU",
-            self.yeardropdown.get(),
-            self.semdropdown.get(),
-            self.classdropdown.get()
-        )
-
-        if os.path.normpath(self.current_class_path) == os.path.normpath(class_root):
-            return
-
-        self.current_class_path = parent
-        self.update_class_items()
+    @staticmethod
+    def main():
+        """Entry static method."""
+        window = GUI()
+        window.makewindow()
 
 
-def main():
-    Eventhandler.prepfilestruct(())
-    window = GUI()
-    window.makewindow()
-
-
-if __name__ == "__main__":
-    main()
+if __name__ == "__main__": # pragma: no cover
+    GUI.main()
 # add constraints to what can be input
 # entry/ add error catching for invalid entries
-# add scrollbar that works

@@ -18,7 +18,7 @@ class Semester:
         year: int = 0,
         semester: str = "None",
         courses: list[c.Course] | None = None,
-        path: str = "")
+        path: str = ""
     ) -> None:
         """
         Creates a Semester class based on given parameters.
@@ -28,7 +28,8 @@ class Semester:
         Args:
             year (int): desired year, default uses current date.
             semester (str): desired semester, default uses current date.
-            courses (List[str]): Given course list, default is emptpy.
+            courses (List[str]): Given course list, default is empty.
+            path (str): known file path, .
         """
         if semester not in {"None", "Summer", "Spring", "Fall", "J-term"}:
             raise ValueError("Season must be: blank, Summer, Spring, Fall, or J-term.")
@@ -45,9 +46,8 @@ class Semester:
 
     @year.setter
     def year(self, val: int) -> None:
-        """ Setter """
-        self._check_year(year)
-        self._year = val
+        """Setter"""
+        self._year = self._check_year(val)
 
     @property
     def semester(self) -> str:
@@ -56,9 +56,8 @@ class Semester:
 
     @semester.setter
     def semester(self, val: str) -> None:
-        """ Setter """
-        self._check_semester(semester)
-        self._semester = val
+        """Setter"""
+        self._semester = self._check_semester(val)
 
     @property
     def courses(self) -> list[c.Course]:
@@ -67,20 +66,18 @@ class Semester:
 
     @courses.setter
     def courses(self, val: list[c.Course]) -> None:
-        """ Setter """
+        """Setter"""
         self._courses = val
 
     @property
     def path(self) -> str:
-        """Getter
-        """
+        """Getter"""
         return self._path
 
     @path.setter
     def path(self, val: str) -> None:
-        """ Setter """
-        self._check_path(path)
-        self._path = val
+        """Setter"""
+        self._path = self._check_path(val)
 
     def print_courses(self) -> None:
         """ Prints a list of current courses """
@@ -116,12 +113,12 @@ class Semester:
         if year == 0:
             return now.year
         else:
-            return = year
+            return year
 
     def _check_semester(self, semester: str) -> str:
         """Helper function to verify init semester."""
-        month = datetime.datetime.now().month
-        day = datetime.datetime.now().day
+        month = datetime.now().month
+        day = datetime.now().day
 
         if semester == "None":
             if month == 1 and day < 14:
@@ -132,9 +129,16 @@ class Semester:
                 return "Summer"
             return "Fall"
 
+        return semester
+
     def _check_path(self, path: str) -> str:
         """Helper function to verify semester directory exists.
            Creates new if the directory does not exist.
+
+        Args:
+            path (str): provided path
+        Returns:
+            str: return new path (if ""), otherwise return unaltered.
         """
         #if path = "":
         #   create dir based off other vals

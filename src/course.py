@@ -1,7 +1,7 @@
 """
     Course class for the file sorter
 """
-from src.tags import Tag
+from tags import Tag
 
 
 class Course:
@@ -13,16 +13,16 @@ class Course:
         self,
         name: str,
         num: int,
-        dept: Tag
+        dept: Tag,
     ) -> None:
         """
         Populates a class based on the course
         name and number, and the department.
 
         Args:
-            name:   str - course title
-            num:    int - course num
-            dept:   Tag - course dept
+            name (str): course title
+            num (int): course num
+            dept (Tag): course dept
         """
         self._name = name
         self._number = num

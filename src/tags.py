@@ -9,9 +9,9 @@ class Tag:
     '''
     Tag class
     '''
-    def __init__(self) -> None:
-        self._name: str = ""
-        self._desc: str = ""
+    def __init__(self, name: str="", desc: str="") -> None:
+        self._name: str = name
+        self._desc: str = desc
 
     def set_name(self, name: str) -> None:
         '''
