@@ -51,19 +51,27 @@ class GUI ():
         self.current_semester = Eventhandler.get_current_semester(self)
         self.window = None
         #self.listboxframe = None
+        self.classboxframe = None
+
+        self.classbox = None
+        self.classscrollbar = None
+        self.upbutton = None
+        self.current_class_path = ""
+        self.classitemsbox = None
+
         self.dirdropdownframe = None
         self.semdropdownframe = None
-        self.classdropdownframe = None
 
         #self.filelist = None
         self.dirdropdown = None
         self.semdropdown = None
-        self.classdropdown = None
         #self.submit = None
         self.spacer = None
         self.dirlabel = None
         self.semlabel = None
         self.classlabel = None
+        classdropdownlabel = None
+        classboxlabel = None
 
     def makewindow(self):
         """Creates and updates everything related to the output window."""
@@ -98,6 +106,24 @@ class GUI ():
         self.semdropdown.set(self.current_semester)
         self.semdropdown.bind("<<ComboboxSelected>>", self.update_classes)
 
+
+        self.classboxframe = tk.Frame(window)
+
+        self.classbox = tk.Listbox(
+            self.classboxframe,
+            selectmode="single",
+            width=30,
+            height=10
+        )
+
+        self.upbutton = tk.Button(
+            self.classboxframe,
+            text="../",
+            command=self.go_up_dir
+        )
+
+        self.classbox.bind("<Double-1>", self.open_selected_item)
+
         self.classdropdown = tkk.Combobox(self.classdropdownframe,
                                    values=self.tagoptions,
                                    state="readonly",
@@ -105,6 +131,31 @@ class GUI ():
                                    )
         self.classdropdown.set("Select a Class")
 
+        self.classboxframe = tk.Frame(window)
+
+        self.classbox = tk.Listbox(
+            self.classboxframe,
+            selectmode="single",
+            width=30,
+            height=10
+        )
+
+        self.classscrollbar = tk.Scrollbar(
+            self.classboxframe,
+            orient="vertical",
+            command=self.classbox.yview
+        )
+
+        self.classbox.config(yscrollcommand=self.classscrollbar.set)
+
+        self.upbutton = tk.Button(
+            self.classboxframe,
+            text="../",
+            command=self.go_up_dir
+        )
+
+        self.classbox.bind("<Double-1>", self.open_selected_item)
+        self.classdropdown.bind("<<ComboboxSelected>>", self.update_class_items)
         self.init_dropdowns()
 
         #submit = tk.Button(window,
@@ -125,8 +176,14 @@ class GUI ():
         semlabel = tk.Label(self.semdropdownframe,
                             text="Pick your semester")
 
-        classlabel = tk.Label(self.classdropdownframe,
-                            text="Pick your class")
+        classlabel = tk.Label(self.classboxframe,
+                              text="Pick your class")
+
+        classdropdownlabel = tk.Label(self.classdropdownframe,
+                                      text="Pick your class")
+
+        classboxlabel = tk.Label(self.classboxframe,
+                                 text="Class contents")
 
 #       Building the window, order matters
         spacer.grid(row=0, column=0, pady=3, sticky="w")
@@ -143,8 +200,14 @@ class GUI ():
         semlabel.pack(side="top")
 
         self.classdropdownframe.grid(row=3, column=0, padx=30, pady=5, sticky="w")
+        classdropdownlabel.pack(side="top")
         self.classdropdown.pack(side="bottom")
+
+        self.classboxframe.grid(row=4, column=0, padx=30, pady=5, sticky="w")
         classlabel.pack(side="top")
+        self.upbutton.pack(side="top")
+        self.classbox.pack(side="left", fill="y")
+        self.classscrollbar.pack(side="right", fill="y")
 
         #submit.grid(row=5, column=5, padx=3, pady=5, sticky="se")
         window.mainloop()
@@ -281,19 +344,84 @@ class GUI ():
         self.update_classes()
 
     def update_classes(self, event=None) -> None:
-        """Updates the dropdown lists for class."""
-        year = int(self.dirdropdown.get())
+        year = self.dirdropdown.get()
         semester = self.semdropdown.get()
 
         classes = []
 
         for sem in self.semester:
-            if sem.year == year and sem.semester == semester:
-                classes = [course.name for course in sem.courses]
+            if str(sem.year) == str(year) and sem.semester == semester:
+                classes = [str(course) for course in sem.courses]
                 break
 
         self.classdropdown["values"] = classes
         self.classdropdown.set("Pick a class")
+
+        self.current_class_path = ""
+        self.classbox.delete(0, tk.END)
+
+    def open_selected_item(self, event=None) -> None:
+        selection = self.classbox.curselection()
+        if not selection:
+            return
+
+        name = self.classbox.get(selection[0]).rstrip("/")
+        next_path = Path(self.current_class_path) / name
+
+        if next_path.is_dir():
+            self.current_class_path = str(next_path)
+            self.refresh_classbox()
+
+    def refresh_classbox(self) -> None:
+        self.classbox.delete(0, tk.END)
+
+        if not self.current_class_path:
+            return
+
+        for item in Path(self.current_class_path).iterdir():
+            if item.is_dir():
+                self.classbox.insert(tk.END, f"{item.name}/")
+            else:
+                self.classbox.insert(tk.END, item.name)
+
+    def go_up_dir(self) -> None:
+        if not self.current_class_path:
+            return
+
+        current = Path(self.current_class_path)
+        parent = current.parent
+
+        year = self.dirdropdown.get()
+        semester = self.semdropdown.get()
+        semester_root = self.cmu_root / year / semester
+
+        if current == semester_root:
+            return
+
+        self.current_class_path = str(parent)
+        self.refresh_classbox()
+
+    def update_class_items(self, event=None) -> None:
+        year = self.dirdropdown.get()
+        semester = self.semdropdown.get()
+        classname = self.classdropdown.get()
+
+        if classname == "Pick a class":
+            return
+
+        self.current_class_path = self.cmu_root / year / semester / classname
+        self.refresh_classbox()
+
+    def refresh_class_items(self) -> None:
+        self.classitemsbox.delete(0, tk.END)
+
+        for item in os.listdir(self.current_class_path):
+            full_path = os.path.join(self.current_class_path, item)
+
+            if os.path.isdir(full_path):
+                self.classitemsbox.insert(tk.END, f"{item}/")
+            else:
+                self.classitemsbox.insert(tk.END, item)
 
     def add_class(self) -> None:
         """Adds a new class directory to a semester directory."""

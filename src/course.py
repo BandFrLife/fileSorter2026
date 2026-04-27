@@ -14,6 +14,7 @@ class Course:
         name: str,
         num: int,
         dept: Tag,
+        tags: list[Tag] = []
     ) -> None:
         """
         Populates a class based on the course
@@ -23,56 +24,66 @@ class Course:
             name (str): course title
             num (int): course num
             dept (Tag): course dept
+            tags (list[Tag]): tags
         """
         self._name = name
         self._number = num
         self._dept = dept
+        self._tags = tags
 
     @property
     def name(self) -> str:
-        """Getter
-        """
+        """Getter"""
         return self._name
 
     @name.setter
     def name(self, val: str) -> None:
-        """ Setter """
+        """Setter"""
         if val == "":
             raise ValueError("Class: Course, must give a name.")
         self._name = val
 
     @property
     def number(self) -> int:
-        """Getter
-        """
+        """Getter"""
         return self._number
 
     @number.setter
     def number(self, val: int) -> None:
-        """ Setter """
+        """Setter"""
         if val < 90 or val > 499:
             raise ValueError("Class: Course, number must be between 90 & 499.")
         self._number = val
 
     @property
     def dept(self) -> Tag:
-        """Getter
-        """
+        """Getter"""
         return self._dept.name
 
     @dept.setter
     def dept(self, val: Tag) -> None:
-        """ Setter """
+        """Setter"""
         if len(val.name) != 4:
             raise ValueError("Class: Course, Tag.name must fit format of 'ABCD'.")
         self._dept = val
+
+
+    @property
+    def tags(self) -> Tag:
+        """Getter"""
+        return self._tags
+
+    @tags.setter
+    def tags(self, val: Tag) -> None:
+        """Setter"""
+        self._tags = val
 
     def __str__(self) -> str:
         """ Returns a str representation of the class.
             Output is Dept Course Course-name
 
         Returns:
-            str: str rep of Course
+            str: string rep of Course
         """
-        return f"{self._dept} {self._number} {self._name}"
+        return f"{self._dept}{self._number}"
 
