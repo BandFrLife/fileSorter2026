@@ -8,6 +8,7 @@ TEST      := unittest
 SRC_DIR   := src
 TEST_DIR  := tests
 TEST_FILE := tests/test_*.py
+SCRIPT    := add_random_in_cmu.sh
 
 .DEFAULT_GOAL = help
 
@@ -30,10 +31,14 @@ clean:
 	rm -rf `find . -type d -name .hypothesis` # remove all hypothesis cache
 	rm -rf `find . -name .coverage` # remove all coverage cache
 
-PHONY: clean-dirs
+.PHONY: clean-dirs
 clean-dirs:
 	# remove all Directories in CMU recursively
 	rm -rf `find . -type d -name '20*'` # remove all pycache
+
+.PHONY: add-random
+add-random:
+	./$(SCRIPT)
 
 .PHONY: run-tests
 run-tests: run-unittest run-pytest
@@ -61,4 +66,6 @@ help:
 	@echo "  make create-uml    - Generate .svg from .puml"
 	@echo "  make clean         - Remove unnecesary py files/dirs"
 	@echo "  make clean-dirs    - Remove all program created files/dirs"
+	@echo "  make add-random    - Adds random dirs/files to CMU/ for testing"
+	@echo "                       ***must run program once***"
 
