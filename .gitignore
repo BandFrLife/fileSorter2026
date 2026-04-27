@@ -15,5 +15,5 @@ venv.bak/
 
 # other
 *.html
-2026/
+CMU/20*/
 .hypothesis/
