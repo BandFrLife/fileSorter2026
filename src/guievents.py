@@ -48,25 +48,27 @@ class Eventhandler ():
         date = datetime.datetime.now()
         year = int(date.strftime("%Y"))
         prefix = ("CMU/")
+        deny = "Permission denied:"
 
         for i in range(4):
             try:
-                os.mkdir(prefix+str(year+i))
-                print(f"Directory '{prefix+str(year+i)}' created successfully.")
+                os.mkdir(prefix + str(year + i))
+                print(
+                    f"'{prefix + str(year + i)}/' created successfully.")
             except FileExistsError:
-                print(f"Directory '{prefix+str(year+i)}' already exists.")
+                print(f"'{prefix + str(year + i)}/' already exists.")
             except PermissionError:
-                print(f"Permission denied: Unable to create '{prefix+str(year+i)}'.")
+                print(f"{deny} Unable to create '{prefix + str(year + i)}/'.")
 
             for semester in semesterlist:
                 try:
-                    yearsem = prefix+str(year+i)+"/"+semester
+                    yearsem = prefix + str(year + i) + "/" + semester
                     os.mkdir(yearsem)
-                    print(f"Directory '{yearsem}' created successfully.")
+                    print(f"'{yearsem}/' created successfully.")
                 except FileExistsError:
-                    print(f"Directory '{yearsem}' already exists.")
+                    print(f"'{yearsem}/' already exists.")
                 except PermissionError:
-                    print(f"Permission denied: Unable to create '{yearsem}'.")
+                    print(f"{deny} Unable to create '{yearsem}/'.")
 
     def get_current_year(self) -> int:
         return int(datetime.datetime.now().year)
@@ -79,12 +81,11 @@ class Eventhandler ():
             if day < 14:
                 return 'J-term'
         elif month < 5:
-                return 'Spring'
+            return 'Spring'
         elif month < 8:
-                return 'Summer'
+            return 'Summer'
         else:
-                return 'Fall'
-
+            return 'Fall'
 
     # from gui import GUI
 

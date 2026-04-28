@@ -2,9 +2,8 @@
     Semester class for the file sorter
 """
 
-import course as c
+import course as crs
 from datetime import datetime
-import os
 
 
 class Semester:
@@ -17,7 +16,7 @@ class Semester:
         self,
         year: int = 0,
         semester: str = "None",
-        courses: list[c.Course] | None = None,
+        courses: list[crs.Course] | None = None,
         path: str = ""
     ) -> None:
         """
@@ -32,7 +31,8 @@ class Semester:
             path (str): known file path, .
         """
         if semester not in {"None", "Summer", "Spring", "Fall", "J-term"}:
-            raise ValueError("Season must be: blank, Summer, Spring, Fall, or J-term.")
+            raise ValueError(
+                "Season must be: blank, Summer, Spring, Fall, or J-term.")
 
         self.year = year
         self.semester = semester
@@ -60,12 +60,12 @@ class Semester:
         self._semester = self._check_semester(val)
 
     @property
-    def courses(self) -> list[c.Course]:
+    def courses(self) -> list[crs.Course]:
         """Getter"""
         return self._courses
 
     @courses.setter
-    def courses(self, val: list[c.Course]) -> None:
+    def courses(self, val: list[crs.Course]) -> None:
         """Setter"""
         self._courses = val
 
@@ -84,7 +84,7 @@ class Semester:
         for c in self._courses:
             print(c)
 
-    def add_course(self, course: c.Course) -> None:
+    def add_course(self, course: crs.Course) -> None:
         """ Adds a course to the current course list.
 
         Args:
@@ -93,7 +93,7 @@ class Semester:
         """
         self._courses.append(course)
 
-    def remove_course(self, course: c.Course) -> None:
+    def remove_course(self, course: crs.Course) -> None:
         """ Removes a course to the current course list.
 
         Args:
@@ -140,10 +140,10 @@ class Semester:
         Returns:
             str: return new path (if ""), otherwise return unaltered.
         """
-        #if path = "":
+        # if path = "":
         #   create dir based off other vals
         #   path = new_path
-        #elif not os.(path):
+        # elif not os.(path):
         #   create dir
         return path
 
@@ -155,4 +155,3 @@ class Semester:
             str: str rep of Semester (semester year)
         """
         return f"{self._semester} {self._year}"
-

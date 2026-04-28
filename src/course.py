@@ -9,6 +9,7 @@ class Course:
     A class that represents a course that includes
     department, course number, course name
     """
+
     def __init__(
         self,
         name: str,
@@ -64,9 +65,9 @@ class Course:
     def dept(self, val: Tag) -> None:
         """Setter"""
         if len(val.name) != 4:
-            raise ValueError("Class: Course, Tag.name must fit format of 'ABCD'.")
+            raise ValueError(
+                "Class: Course, Tag.name must fit format of 'ABCD'.")
         self._dept = val
-
 
     @property
     def tags(self) -> Tag:
@@ -86,4 +87,3 @@ class Course:
             str: string rep of Course
         """
         return f"{self._dept}{self._number}"
-

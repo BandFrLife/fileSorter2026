@@ -4,6 +4,7 @@ import re
 import tkinter as tk
 import typing
 from tkinter import ttk as tkk
+from tkinter import messagebox
 from typing import Optional
 from pathlib import Path
 from guievents import Eventhandler
@@ -45,12 +46,12 @@ class GUI ():
         self.tagoptions = []
         self.semester = self.get_semesters()
         self.years = []
-        self.classes: list[[str],[str]] = []
+        self.classes: list[[str], [str]] = []
 
         self.current_year = str(Eventhandler.get_current_year(self))
         self.current_semester = Eventhandler.get_current_semester(self)
         self.window = None
-        #self.listboxframe = None
+        # self.listboxframe = None
         self.classboxframe = None
 
         self.classbox = None
@@ -59,79 +60,72 @@ class GUI ():
         self.current_class_path = ""
         self.classitemsbox = None
 
-        self.dirdropdownframe = None
+        self.yeardropdownframe = None
         self.semdropdownframe = None
 
-        #self.filelist = None
-        self.dirdropdown = None
+        # self.filelist = None
+        self.yeardropdown = None
         self.semdropdown = None
-        #self.submit = None
+        # self.submit = None
         self.spacer = None
-        self.dirlabel = None
+        self.yearlabel = None
         self.semlabel = None
         self.classlabel = None
-        classdropdownlabel = None
-        classboxlabel = None
+        self.classdropdownlabel = None
+        self.classboxlabel = None
+
+        self.addyearbutton = None
+        # self.addsemesterbutton = None
+        self.addclassbutton = None
+
+        self.createfilebutton = None
+        self.createfolderbutton = None
 
     def makewindow(self):
         """Creates and updates everything related to the output window."""
         window = tk.Tk()
-        window.title("File Sorter v0.2")
+        window.title("File Sorter v2.0")
 
         window.geometry('900x500+30+30')  # window size(x,y), offest
+
         for row in range(5):
-            window.rowconfigure(row, weight=1)
-        for col in range(5):
-            window.columnconfigure(col, weight=1)
-        window.rowconfigure(0, weight=0)
-        window.rowconfigure(2, weight=0)
+            window.rowconfigure(row, weight=0)
 
-        self.dirdropdownframe = tk.Frame(window)  # for scrollable listbox
-        self.semdropdownframe = tk.Frame(window)  # for paired Semdropdown and label
-        self.classdropdownframe = tk.Frame(window) # for paired classdropdown and label
+        window.rowconfigure(4, weight=1)
+        window.columnconfigure(0, weight=1)
 
-        self.dirdropdown = tkk.Combobox(self.dirdropdownframe,
-                                   values=self.get_years(),
-                                   state="readonly",
-                                   width=20
-                                   )
-        self.dirdropdown.set(self.current_year)
-        self.dirdropdown.bind("<<ComboboxSelected>>", self.update_semesters)
+        self.yeardropdownframe = tk.Frame(window)  # for scrollable listbox
+        # for paired Semdropdown and label
+        self.semdropdownframe = tk.Frame(window)
+        # for paired classdropdown and label
+        self.classdropdownframe = tk.Frame(window)
+
+        self.yeardropdown = tkk.Combobox(self.yeardropdownframe,
+                                         values=self.get_years(),
+                                         state="readonly",
+                                         width=20
+                                         )
+        self.yeardropdown.set(self.current_year)
+        self.yeardropdown.bind("<<ComboboxSelected>>", self.update_semesters)
 
         self.semdropdown = tkk.Combobox(self.semdropdownframe,
-                                   values=[],
-                                   state="readonly",
-                                   width=20
-                                   )
+                                        values=[],
+                                        state="readonly",
+                                        width=20
+                                        )
         self.semdropdown.set(self.current_semester)
         self.semdropdown.bind("<<ComboboxSelected>>", self.update_classes)
 
-
-        self.classboxframe = tk.Frame(window)
-
-        self.classbox = tk.Listbox(
-            self.classboxframe,
-            selectmode="single",
-            width=30,
-            height=10
-        )
-
-        self.upbutton = tk.Button(
-            self.classboxframe,
-            text="../",
-            command=self.go_up_dir
-        )
-
-        self.classbox.bind("<Double-1>", self.open_selected_item)
-
         self.classdropdown = tkk.Combobox(self.classdropdownframe,
-                                   values=self.tagoptions,
-                                   state="readonly",
-                                   width=20
-                                   )
+                                          values=self.tagoptions,
+                                          state="readonly",
+                                          width=20
+                                          )
         self.classdropdown.set("Select a Class")
 
         self.classboxframe = tk.Frame(window)
+        self.classboxframe.columnconfigure(0, weight=1)
+        self.classboxframe.rowconfigure(2, weight=1)
 
         self.classbox = tk.Listbox(
             self.classboxframe,
@@ -154,65 +148,132 @@ class GUI ():
             command=self.go_up_dir
         )
 
+        self.createfilebutton = tk.Button(
+            self.classboxframe,
+            text="Create file",
+            command=self.create_file
+        )
+
+        self.createfolderbutton = tk.Button(
+            self.classboxframe,
+            text="Create folder",
+            command=self.create_folder
+        )
+
         self.classbox.bind("<Double-1>", self.open_selected_item)
-        self.classdropdown.bind("<<ComboboxSelected>>", self.update_class_items)
+
+        self.classbox.config(yscrollcommand=self.classscrollbar.set)
+
+        self.addyearbutton = tk.Button(
+            self.yeardropdownframe,
+            text="Add year",
+            command=self.add_year
+        )
+
+        # self.addsemesterbutton = tk.Button(
+        #     self.semdropdownframe,
+        #     text="Add semester",
+        #     command=self.add_semester
+        # )
+
+        self.addclassbutton = tk.Button(
+            self.classdropdownframe,
+            text="Add class",
+            command=self.add_class
+        )
+
+        self.classbox.bind("<Double-1>", self.open_selected_item)
+        self.classdropdown.bind(
+            "<<ComboboxSelected>>",
+            self.update_class_items)
         self.init_dropdowns()
 
-        #submit = tk.Button(window,
-        #                   text="Save file",
-        #                   anchor="se",
-        #                   padx=20,  # size of button in x
-        #                   pady=3  # size of button in y
-        #                   )
-        #submit.bind('<Button-1>', lambda event: Eventhandler.savefileas
-        #            ((), filelist, ("2026/"+self.semdropdown.get())))
-        spacer = tk.Label(window,
-                          text="Welcome to the File Sorter! "
-                          "To start with pick your messy directory")
+        # submit = tk.Button(window,
+        #                    text="Save file",
+        #                    anchor="se",
+        #                    padx=20,  #  size of button in x
+        #                    pady=3  #   size of button in y
+        #                     )
+        #  submit.bind('<Button-1>', lambda event: Eventhandler.savefileas
+        #              ((), filelist, ("2026/"+self.semdropdown.get())))
+        spacer = tk.Label(
+            window,
+            text="Welcome to the School File Sorter!"
+        )
 
-        dirlabel = tk.Label(self.dirdropdownframe,
-                            text="Pick your year")
+        yearlabel = tk.Label(
+            self.yeardropdownframe,
+            text="Pick your year",
+            anchor="w"
+        )
 
-        semlabel = tk.Label(self.semdropdownframe,
-                            text="Pick your semester")
+        semlabel = tk.Label(
+            self.semdropdownframe,
+            text="Pick your semester",
+            anchor="w"
+        )
 
-        classlabel = tk.Label(self.classboxframe,
-                              text="Pick your class")
+        classlabel = tk.Label(
+            self.classboxframe,
+            text="Pick your class",
+            anchor="w"
+        )
 
-        classdropdownlabel = tk.Label(self.classdropdownframe,
-                                      text="Pick your class")
+        self.classdropdownlabel = tk.Label(
+            self.classdropdownframe,
+            text="Pick your class",
+            anchor="w"
+        )
 
-        classboxlabel = tk.Label(self.classboxframe,
-                                 text="Class contents")
+        self.classboxlabel = tk.Label(
+            self.classboxframe,
+            text="Class contents",
+            anchor="w"
+        )
 
 #       Building the window, order matters
-        spacer.grid(row=0, column=0, pady=3, sticky="w")
-        #listboxframe.grid(row=1, column=0, sticky="w")
-        self.dirdropdown.pack(side="top")
-        #filelist.pack(side="left", fill="y")
+        spacer.grid(row=0, column=0, padx=30, pady=10, sticky="w")
 
-        self.dirdropdownframe.grid(row=1, column=0, padx=30, pady=5, sticky="w")
-        self.dirdropdown.pack(side="bottom")
-        dirlabel.pack(side="top")
+        self.yeardropdownframe.grid(
+            row=1, column=0, padx=30, pady=5, sticky="w")
+        yearlabel.pack(side="top", anchor="w", fill="x")
+        self.yeardropdown.pack(side="left", padx=(0, 10))
+        self.addyearbutton.pack(side="left")
 
-        self.semdropdownframe.grid(row=2, column=0, padx=30, pady=5, sticky="w")
-        self.semdropdown.pack(side="bottom")
-        semlabel.pack(side="top")
+        self.semdropdownframe.grid(
+            row=2, column=0, padx=30, pady=5, sticky="w")
+        semlabel.pack(side="top", anchor="w", fill="x")
+        self.semdropdown.pack(side="left", padx=(0, 10))
+        # self.addsemesterbutton.pack(side="left")
 
-        self.classdropdownframe.grid(row=3, column=0, padx=30, pady=5, sticky="w")
-        classdropdownlabel.pack(side="top")
-        self.classdropdown.pack(side="bottom")
+        self.classdropdownframe.grid(
+            row=3, column=0, padx=30, pady=5, sticky="w")
+        self.classdropdownlabel.pack(side="top", anchor="w", fill="x")
+        self.classdropdown.pack(side="left", padx=(0, 5))
+        self.addclassbutton.pack(side="left")
 
-        self.classboxframe.grid(row=4, column=0, padx=30, pady=5, sticky="w")
-        classlabel.pack(side="top")
-        self.upbutton.pack(side="top")
-        self.classbox.pack(side="left", fill="y")
-        self.classscrollbar.pack(side="right", fill="y")
+        self.classboxframe.grid(
+            row=4, column=0, padx=30, pady=(
+                5, 30), sticky="nsew")
 
-        #submit.grid(row=5, column=5, padx=3, pady=5, sticky="se")
+        classlabel.grid(row=0, column=0, columnspan=2, sticky="w")
+        self.upbutton.grid(row=1, column=0, sticky="w", pady=(0, 5))
+        self.createfilebutton.grid(
+            row=1, column=0, sticky="w", padx=(
+                45, 0), pady=(
+                0, 5))
+        self.createfolderbutton.grid(
+            row=1, column=0, sticky="w", padx=(
+                140, 0), pady=(
+                0, 5))
+
+        self.classbox.grid(row=2, column=0, sticky="nsew")
+        self.classscrollbar.grid(row=2, column=1, sticky="ns")
+
+        # submit.grid(row=5, column=5, padx=3, pady=5, sticky="se")
         window.mainloop()
 
-    def scan_dir(self) -> tuple[list[Path],list[str]]:
+    def scan_dir(self) -> tuple[list[Path], list[str]]:
         """ Recursively finds all files and directories inside CMU.
             Returns a list of Path objects.
 
@@ -233,7 +294,7 @@ class GUI ():
             elif item.is_file():
                 files.append(str(item))
 
-        return (dirs,files)
+        return (dirs, files)
 
     def dir_empty(self) -> bool:
         """Check if a directory is empty.
@@ -272,7 +333,9 @@ class GUI ():
                     valid = re.fullmatch(r"([A-Z]{4})(\d{3})", course_dir.name)
                     if valid:
                         tag = Tag(name=valid.group(1))
-                        course = Course(course_dir.name, int(valid.group(2)), tag)
+                        course = Course(
+                            course_dir.name, int(
+                                valid.group(2)), tag)
                         courses.append(course)
 
                 semesters.append(
@@ -299,32 +362,31 @@ class GUI ():
             try:
                 int(d.name)
                 years.append(d.name)
-            except:
+            except BaseException:
                 pass
 
         return years
-
 
     def init_dropdowns(self) -> None:
         """Initialize the dropdown boxes.
         """
         years = self.get_years()
 
-        #self.dirdropdown["values"] = years
+        # self.yeardropdown["values"] = years
 
         if self.current_year in years:
-            self.dirdropdown.set(self.current_year)
+            self.yeardropdown.set(self.current_year)
         elif years:
-            self.dirdropdown.set(years[0])
+            self.yeardropdown.set(years[0])
         else:
-            #self.dirdropdown.set("Pick a year")
+            # self.yeardropdown.set("Pick a year")
             return
 
         self.update_semesters(initial=True)
 
     def update_semesters(self, event=None, initial: bool = False) -> None:
         """Updates the dropdown lists for semester."""
-        year = self.dirdropdown.get()
+        year = self.yeardropdown.get()
         semesters = [
             sem.semester
             for sem in self.semester
@@ -344,7 +406,7 @@ class GUI ():
         self.update_classes()
 
     def update_classes(self, event=None) -> None:
-        year = self.dirdropdown.get()
+        year = self.yeardropdown.get()
         semester = self.semdropdown.get()
 
         classes = []
@@ -388,21 +450,24 @@ class GUI ():
         if not self.current_class_path:
             return
 
-        current = Path(self.current_class_path)
-        parent = current.parent
-
-        year = self.dirdropdown.get()
+        year = self.yeardropdown.get()
         semester = self.semdropdown.get()
-        semester_root = self.cmu_root / year / semester
+        classname = self.classdropdown.get()
 
-        if current == semester_root:
+        if classname == "Pick a class":
             return
 
-        self.current_class_path = str(parent)
+        current = Path(self.current_class_path)
+        class_root = self.cmu_root / year / semester / classname
+
+        if current == class_root:
+            return
+
+        self.current_class_path = str(current.parent)
         self.refresh_classbox()
 
     def update_class_items(self, event=None) -> None:
-        year = self.dirdropdown.get()
+        year = self.yeardropdown.get()
         semester = self.semdropdown.get()
         classname = self.classdropdown.get()
 
@@ -412,20 +477,141 @@ class GUI ():
         self.current_class_path = self.cmu_root / year / semester / classname
         self.refresh_classbox()
 
-    def refresh_class_items(self) -> None:
-        self.classitemsbox.delete(0, tk.END)
+    def add_popup(self, title: str, label: str, save_command) -> None:
+        """Creates a small popup with an entry and save button."""
+        popup = tk.Toplevel()
+        popup.title(title)
+        popup.geometry("300x120")
 
-        for item in os.listdir(self.current_class_path):
-            full_path = os.path.join(self.current_class_path, item)
+        entry_label = tk.Label(popup, text=label)
+        entry_label.pack(pady=5)
 
-            if os.path.isdir(full_path):
-                self.classitemsbox.insert(tk.END, f"{item}/")
-            else:
-                self.classitemsbox.insert(tk.END, item)
+        entry = tk.Entry(popup, width=25)
+        entry.pack(pady=5)
+        entry.focus()
+
+        def save() -> None:
+            value = entry.get().strip()
+            if not value:
+                messagebox.showerror("Error", "Input cannot be empty.")
+                return
+
+            save_command(value)
+            popup.destroy()
+
+            save_button = tk.Button(popup, text="Save", command=self.save)
+            save_button.pack(pady=5)
+
+    def add_year(self) -> None:
+        """Adds a new year directory under CMU."""
+        self.add_popup("Add Year", "Enter year, example: 2030", self.save_year)
+
+    def save_year(self, year: str) -> None:
+        if not year.isdigit() or len(year) != 4:
+            messagebox.showerror("Error", "Year must be 4 digits.")
+            return
+
+        year_path = self.cmu_root / year
+        year_path.mkdir(exist_ok=True)
+
+        for semester in self.SEMESTERS:
+            (year_path / semester).mkdir(exist_ok=True)
+
+        self.semester = self.get_semesters()
+        self.yeardropdown["values"] = self.get_years()
+        self.yeardropdown.set(year)
+        self.update_semesters()
+
+    def add_semester(self) -> None:
+        """Adds a new semester directory under selected year."""
+        self.add_popup(
+            "Add Semester",
+            "Enter semester: Fall, J-term, Spring, Summer",
+            self.save_semester
+        )
+
+    def save_semester(self, semester: str) -> None:
+        year = self.yeardropdown.get()
+
+        if semester not in self.SEMESTERS:
+            messagebox.showerror(
+                "Error",
+                "Semester must be Fall, J-term, Spring, or Summer."
+            )
+            return
+
+        semester_path = self.cmu_root / year / semester
+        semester_path.mkdir(parents=True, exist_ok=True)
+
+        self.semester = self.get_semesters()
+        self.update_semesters()
+        self.semdropdown.set(semester)
+        self.update_classes()
 
     def add_class(self) -> None:
-        """Adds a new class directory to a semester directory."""
-        pass
+        """Adds a new class directory to selected year/semester."""
+        self.add_popup(
+            "Add Class",
+            "Enter class, example: CSCI111",
+            self.save_class
+        )
+
+    def save_class(self, classname: str) -> None:
+        year = self.yeardropdown.get()
+        semester = self.semdropdown.get()
+
+        valid = re.fullmatch(r"[A-Z]{4}\d{3}", classname)
+
+        if not valid:
+            messagebox.showerror(
+                "Error",
+                "Class must match format AAAA111, example: CSCI111."
+            )
+            return
+
+        class_path = self.cmu_root / year / semester / classname
+        class_path.mkdir(parents=True, exist_ok=True)
+
+        self.semester = self.get_semesters()
+        self.update_classes()
+        self.classdropdown.set(classname)
+        self.update_class_items()
+
+    def create_file(self) -> None:
+        """Creates a file in the currently viewed class/folder."""
+        self.add_popup("Create File", "Enter file name", self.save_file)
+
+    def save_file(self, filename: str) -> None:
+        if not self.current_class_path:
+            messagebox.showerror("Error", "Pick a class first.")
+            return
+
+        file_path = Path(self.current_class_path) / filename
+
+        if file_path.exists():
+            messagebox.showerror("Error", "File already exists.")
+            return
+
+        file_path.touch()
+        self.refresh_classbox()
+
+    def create_folder(self) -> None:
+        """Creates a folder in the currently viewed class/folder."""
+        self.add_popup("Create Folder", "Enter folder name", self.save_folder)
+
+    def save_folder(self, foldername: str) -> None:
+        if not self.current_class_path:
+            messagebox.showerror("Error", "Pick a class first.")
+            return
+
+        folder_path = Path(self.current_class_path) / foldername
+
+        if folder_path.exists():
+            messagebox.showerror("Error", "Folder already exists.")
+            return
+
+        folder_path.mkdir()
+        self.refresh_classbox()
 
     def add_tag(self) -> None:
         """Adds a new tag to class attribute self.tagoptions."""
@@ -438,7 +624,7 @@ class GUI ():
         window.makewindow()
 
 
-if __name__ == "__main__": # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
     GUI.main()
 # add constraints to what can be input
 # entry/ add error catching for invalid entries
