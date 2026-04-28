@@ -499,8 +499,8 @@ class GUI ():
             save_command(value)
             popup.destroy()
 
-            save_button = tk.Button(popup, text="Save", command=self.save)
-            save_button.pack(pady=5)
+        save_button = tk.Button(popup, text="Save", command=save)
+        save_button.pack(pady=5)
 
     def add_year(self) -> None:
         """Adds a new year directory under CMU."""
