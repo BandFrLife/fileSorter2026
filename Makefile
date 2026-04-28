@@ -9,6 +9,8 @@ SRC_DIR   := src
 TEST_DIR  := tests
 TEST_FILE := tests/test_*.py
 SCRIPT    := add_random_in_cmu.sh
+FORMAT_CHECK = autopep8 --in-place --aggressive --recursive
+STYLE_CHECK  = flake8
 
 .DEFAULT_GOAL = help
 
@@ -55,6 +57,15 @@ run-pytest:
 docker:
 	bash ./run-docker.sh
 
+.PHONY: check-format
+check-format:
+	$(FORMAT_CHECK) $(SRC_DIR)/
+
+.PHONY: check-style
+check-style:
+	$(STYLE_CHECK) $(SRC_DIR)
+
+
 ## Show available Makefile commands
 help:
 	@echo ""
@@ -62,6 +73,8 @@ help:
 	@echo "  make               - Make help"
 	@echo "  make run           - run program"
 	@echo "  make docker        - Creates a container and enters it"
+	@echo "  make check-format  - autopep8"
+	@echo "  make check-style   - lint files"
 	@echo "  make help          - Display this menu"
 	@echo "  make create-uml    - Generate .svg from .puml"
 	@echo "  make clean         - Remove unnecesary py files/dirs"
