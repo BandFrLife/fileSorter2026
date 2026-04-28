@@ -1,29 +1,27 @@
 @startuml
 actor User
 participant GUI
-participant GuiEventHandler
+participant EventHandler
 participant Semester
 participant Course
 participant Tag
 
-User -> GUI : click "Add File"
-GUI -> GuiEventHandler : pickfile()
-GuiEventHandler --> GUI : selected file path
+User -> GUI : click "Pick Dir"
+GUI -> EventHandler : populatelist()
+EventHandler --> GUI : list of files in dir
 
-GUI -> GuiEventHandler : getTag(file)
-GuiEventHandler --> GUI : tag name
+User -> GUI : click files in list
+User -> GUI : select year
+User -> GUI : select class
+User -> GUI : SaveFiles()
 
-GUI -> GuiEventHandler : pickpath(tag)
-GuiEventHandler -> Semester : courses()
-Semester --> GuiEventHandler : list of courses
-GuiEventHandler -> Course : dept()
-Course --> GuiEventHandler : Tag
-GuiEventHandler -> Tag : name()
-Tag --> GuiEventHandler : tag name
-GuiEventHandler --> GUI : destination directory
+GUI -> EventHandler : SaveFiles()
+EventHandler -> Course : dept()
+Course --> EventHandler : Tag
+EventHandler -> Tag : name()
+Tag --> EventHandler : tag name
 
-GUI -> GuiEventHandler : savefileas(file, dir)
-GuiEventHandler --> GUI : file saved
+EventHandler --> GUI : file saved
 
 GUI --> User : show success message
 @enduml
