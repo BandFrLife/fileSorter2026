@@ -1,5 +1,4 @@
 PROGRAM   := gui2.py
-COURSE    := course.py
 COMPILE   := python3
 PLANTUML  := plantuml
 UML_DIR   := uml
