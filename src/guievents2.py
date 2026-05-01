@@ -1,75 +1,99 @@
-"""Seperate file that holds all events and calls from the gui
+"""Event functions for the file sorter GUI."""
 
-Returns:
-    None: Nada, Nothing
-"""
-from tkinter.filedialog import askdirectory, asksaveasfile
+from __future__ import annotations
+
 import os
-import datetime
+import shutil
+from pathlib import Path
 import tkinter as tk
+from tkinter.filedialog import askdirectory
+from tkinter.messagebox import showerror, showinfo
 
 
-class Eventhandler ():
-    """_summary_
-    """
+class Eventhandler:
+    """Holds the actions called by the GUI buttons."""
 
-    def populatelist(self, box: tk.Listbox) -> None:
-        """populates a ListBox with all the files in dir
+    def __init__(self) -> None:
+        self.source_dir: Path | None = None
+        self.project_root = Path(__file__).resolve().parent
+        self.current_year = "2026"
 
-        Args:
-            entry (tk.ListBox): a ListBox to  input the data to
-
-        """
-        mylist = os.listdir(askdirectory())
-        box.delete(0, tk.END)
-        for file in mylist:
-            box.insert(tk.END, file)
-
-    def savefileas(self, filelist: tk.Listbox, directory: str) -> None:
-        """the final function
-
-        Args:
-            file (tk.Entry): the file to save
-            directory (str): where to save it
-            tag (str): maybe add the tags in teh same function? idk yet
-        """
-        # Currently falsifies file saving, needs adjustment
-        for i in filelist.curselection():
-            file = (filelist.get(i))
-            asksaveasfile(
-                mode="w",
-                confirmoverwrite=True,
-                initialdir=directory,
-                initialfile=file
+    def prepfilestruct(self) -> None:
+        """Create the basic 2026 semester folders if missing."""
+        for semester in ["Fall", "J-term", "Spring", "Summer"]:
+            (self.project_root / self.current_year / semester).mkdir(
+                parents=True,
+                exist_ok=True,
             )
 
-    def prepfilestruct(self):
-        semesterlist: list = ["Fall", "J-term", "Spring", "Summer"]
-        date = datetime.datetime.now()
-        year = int(date.strftime("%Y"))
-        prefix = ("CMU/")
-        print(prefix)
+    def populatelist(self, box: tk.Listbox) -> None:
+        """Open a directory and list only files in the file listbox."""
+        picked_dir = askdirectory()
+        if not picked_dir:
+            return
 
-        for i in range(4):
-            try:
-                os.mkdir(prefix+str(year+i))
-                print(f"Directory '{prefix+str(year+i)}' created successfully.")
-            except FileExistsError:
-                print(f"Directory '{prefix+str(year+i)}' already exists.")
-            except PermissionError:
-                print(f"Permission denied: Unable to create '{prefix+str(year+i)}'.")
+        self.source_dir = Path(picked_dir)
+        box.delete(0, tk.END)
 
-            for semester in semesterlist:
-                try:
-                    yearsem = prefix+str(year+i)+"/"+semester
-                    os.mkdir(yearsem)
-                    print(f"Directory '{yearsem}' created successfully.")
-                except FileExistsError:
-                    print(f"Directory '{yearsem}' already exists.")
-                except PermissionError:
-                    print(f"Permission denied: Unable to create '{yearsem}'.")
+        for item in sorted(self.source_dir.iterdir()):
+            if item.is_file():
+                box.insert(tk.END, item.name)
 
-    # from gui import GUI
+    def add_tag(self, tag_entry: tk.Entry, tag_box: tk.Listbox) -> None:
+        """Add one manually typed tag to the tag listbox."""
+        new_tag = tag_entry.get().strip()
+        if not new_tag:
+            showerror("Missing tag", "Enter a tag name first.")
+            return
 
-    # def errorhandle(self):
-    #     GUI.makeerror((), "Function not implemented")
+        current_tags = tag_box.get(0, tk.END)
+        if new_tag not in current_tags:
+            tag_box.insert(tk.END, new_tag)
+
+        tag_entry.delete(0, tk.END)
+
+    def savefileas(
+        self,
+        filelist: tk.Listbox,
+        semester: str,
+        course_name: str,
+        tag_box: tk.Listbox,
+    ) -> None:
+        """Copy the selected file into 2026/semester/course_name."""
+        if self.source_dir is None:
+            showerror("No directory", "Pick a directory first.")
+            return
+
+        selected_files = filelist.curselection()
+        if len(selected_files) != 1:
+            showerror("File selection", "Select exactly one file.")
+            return
+
+        if semester not in {"Fall", "J-term", "Spring", "Summer"}:
+            showerror("Missing semester", "Select a semester.")
+            return
+
+        course_name = course_name.strip()
+        if not course_name:
+            showerror("Missing class", "Enter the class/course name.")
+            return
+
+        filename = filelist.get(selected_files[0])
+        source_path = self.source_dir / filename
+        destination_dir = self.project_root / self.current_year / semester / course_name
+        destination_dir.mkdir(parents=True, exist_ok=True)
+
+        destination_path = destination_dir / filename
+        shutil.copy2(source_path, destination_path)
+
+        selected_tags = [tag_box.get(i) for i in tag_box.curselection()]
+        required_tags = [self.current_year, semester, course_name]
+        all_tags = []
+        for tag in required_tags + selected_tags:
+            if tag not in all_tags:
+                all_tags.append(tag)
+
+        tag_file = destination_path.with_suffix(destination_path.suffix + ".tags.txt")
+        tag_file.write_text("\n".join(all_tags) + "\n", encoding="utf-8")
+
+        showinfo("Saved", f"Saved to:\n{destination_path}")

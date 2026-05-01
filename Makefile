@@ -4,7 +4,7 @@ PLANTUML  := plantuml
 UML_DIR   := uml
 PYTEST    := pytest
 TEST      := unittest
-SRC_DIR   := guiFiles
+SRC_DIR   := src
 TEST_DIR  := tests
 TEST_FILE := tests/test_*.py
 
@@ -12,7 +12,7 @@ TEST_FILE := tests/test_*.py
 
 .PHONY: run
 run:
-	$(COMPILE) ./guiFiles/$(PROGRAM)
+	$(COMPILE) ./$(SRC_DIR)/$(PROGRAM)
 
 
 # Generate UML images
