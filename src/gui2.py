@@ -57,7 +57,8 @@ class GUI:
 
         welcome = tk.Label(
             window,
-            text="Pick a directory, select one file, add class/semester/tags, then save.",
+            text="Pick a directory, select one file, "
+                 "add class/semester/tags, then save.",
         )
 
         filelist = tk.Listbox(
@@ -129,7 +130,13 @@ class GUI:
         # Window layout
         welcome.grid(row=0, column=0, columnspan=4, pady=8, sticky="w")
 
-        file_frame.grid(row=1, column=0, rowspan=4, padx=8, pady=5, sticky="nw")
+        file_frame.grid(
+            row=1,
+            column=0,
+            rowspan=4,
+            padx=8,
+            pady=5,
+            sticky="nw")
         dirpick.pack(side="top", anchor="w")
         filelist.pack(side="left", fill="y")
         scrollbar.pack(side="right", fill="y")

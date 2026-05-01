@@ -29,7 +29,8 @@ class Semester:
             courses:
         """
         if season not in {"None", "Summer", "Spring", "Fall", "J-term"}:
-            raise ValueError("Season must be: blank, Summer, Spring, Fall, or J-term.")
+            raise ValueError(
+                "Season must be: blank, Summer, Spring, Fall, or J-term.")
 
         now = datetime.now()
 
@@ -86,8 +87,8 @@ class Semester:
 
     def print_courses(self) -> None:
         """ Prints a list of current courses """
-        for c in self._courses:
-            print(c)
+        for course in self._courses:
+            print(course)
 
     def add_course(self, course: c.Course) -> None:
         """ Adds a course to the current course list.
@@ -120,4 +121,3 @@ class Semester:
             str: str rep of Semester (season year)
         """
         return f"{self._season} {self._year}"
-

@@ -1,5 +1,5 @@
 """
-    Course class for the file sorter
+    course class for the file sorter
 """
 from src.tags import Tag
 
@@ -9,6 +9,7 @@ class Course:
     A class that represents a course that includes
     department, course number, course name
     """
+
     def __init__(
         self,
         name: str,
@@ -26,7 +27,7 @@ class Course:
         """
         self._name = name
         self._number = num
-        self._dept = dept
+        self._dept: Tag = dept
 
     @property
     def name(self) -> str:
@@ -56,15 +57,15 @@ class Course:
 
     @property
     def dept(self) -> Tag:
-        """Getter
-        """
-        return self._dept.name
+        """Getter"""
+        return self._dept
 
     @dept.setter
     def dept(self, val: Tag) -> None:
-        """ Setter """
+        """Setter"""
         if len(val.name) != 4:
-            raise ValueError("Class: Course, Tag.name must fit format of 'ABCD'.")
+            raise ValueError(
+                "Class: Course, Tag.name must fit format of 'ABCD'.")
         self._dept = val
 
     def __str__(self) -> str:
@@ -74,5 +75,4 @@ class Course:
         Returns:
             str: str rep of Course
         """
-        return f"{self._dept} {self._number} {self._name}"
-
+        return f"{str(self._dept)} {self._number} {self._name}"

@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import os
 import shutil
 from pathlib import Path
 import tkinter as tk
@@ -64,11 +63,19 @@ class Eventhandler:
             showerror("No directory", "Pick a directory first.")
             return
 
-        selected_files = filelist.curselection()
+        selected_files: tuple[int, ...] = (
+            filelist.curselection()  # type: ignore[no-untyped-call]
+        )
         if len(selected_files) != 1:
             showerror("File selection", "Select exactly one file.")
             return
 
+        selected_tag_indexes: tuple[int, ...] = (
+            tag_box.curselection()  # type: ignore[no-untyped-call]
+        )
+        if len(selected_files) != 1:
+            showerror("File selection", "Select exactly one file.")
+            return
         if semester not in {"Fall", "J-term", "Spring", "Summer"}:
             showerror("Missing semester", "Select a semester.")
             return
@@ -80,20 +87,27 @@ class Eventhandler:
 
         filename = filelist.get(selected_files[0])
         source_path = self.source_dir / filename
-        destination_dir = self.project_root / self.current_year / semester / course_name
+        destination_dir = (
+            self.project_root
+            / self.current_year
+            / semester
+            / course_name
+        )
         destination_dir.mkdir(parents=True, exist_ok=True)
 
         destination_path = destination_dir / filename
         shutil.copy2(source_path, destination_path)
 
-        selected_tags = [tag_box.get(i) for i in tag_box.curselection()]
+        selected_tags = [tag_box.get(i) for i in selected_tag_indexes]
+
         required_tags = [self.current_year, semester, course_name]
         all_tags = []
         for tag in required_tags + selected_tags:
             if tag not in all_tags:
                 all_tags.append(tag)
 
-        tag_file = destination_path.with_suffix(destination_path.suffix + ".tags.txt")
+        tag_file = destination_path.with_suffix(
+            destination_path.suffix + ".tags.txt")
         tag_file.write_text("\n".join(all_tags) + "\n", encoding="utf-8")
 
         showinfo("Saved", f"Saved to:\n{destination_path}")

@@ -4,10 +4,9 @@ Unittesting Course class
 
 
 import unittest
-import pytest
 from hypothesis import given, strategies as st
-from guiFiles.course import Course
-from guiFiles.tags import Tag
+from src.course import Course
+from src.tags import Tag
 
 
 class TestCourse(unittest.TestCase):
@@ -15,7 +14,7 @@ class TestCourse(unittest.TestCase):
     Unittesting Course class
     """
     valid_tag = st.text(
-        #alphabet="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM",
+        # alphabet="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM",
         alphabet="QWERTYUIOPASDFGHJKLZXCVBNM",
         min_size=4,
         max_size=4
@@ -46,7 +45,7 @@ class TestCourse(unittest.TestCase):
 
         c = Course(name, num, t)
 
-        assert c.dept == dept
+        assert str(c.dept) == dept
         assert c.name == name
         assert c.number == num
 
@@ -83,11 +82,12 @@ class TestCourse(unittest.TestCase):
 
     def test_getter_dept(self) -> None:
         """Tests getter method for name"""
-        self.assertEqual(self.c.dept, "CSCI")
+        tag = Tag()
+        tag.set_name("CSCI")
+        self.assertEqual(str(self.c.dept), tag.name)
 
     @given(valid_course)
     def test_setter_dept(self, dept: str) -> None:
         """Tests setter method for name using hypothesis."""
         self.c._dept.set_name(dept)
         assert str(self.c._dept) == dept
-
