@@ -45,7 +45,7 @@ create-docs:
 # Generate UML images
 .PHONY: create-uml
 create-uml:
-	$(PLANTUML) $(UML_DIR)/*.plantuml -tsvg
+	$(PLANTUML) $(UML_DIR)/*.plantuml
 
 .PHONY: clean
 clean:
