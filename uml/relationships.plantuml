@@ -1,0 +1,16 @@
+@startuml
+class Semester { }
+
+class Course { }
+
+class Tag { }
+
+class GUI { }
+
+class Eventhandler { }
+
+GUI o-- Eventhandler : uses
+Semester o-- Course : uses
+Course o-- Tag : uses
+Eventhandler --> Semester: uses
+@enduml

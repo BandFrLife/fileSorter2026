@@ -1,4 +1,4 @@
-' UML Diagram for Semester, Course, Tag, and GUI
+' UML Diagram for Semester, Course, Tag, GUI, and Eventhandler
 
 @startuml
 class Semester {
@@ -6,16 +6,16 @@ class Semester {
     - _season : str
     - _courses : list[Course]
     + year() : int
-    + year(val: int)
+    + year(val : int)
     + season() : str
-    + season(val: str)
+    + season(val : str)
     + courses() : list[Course]
-    + courses(val: list[Course])
+    + courses(val : list[Course])
     + print_courses() : None
-    + add_course(course: Course)
-    + remove_course(course: Course)
+    + add_course(course : Course) : None
+    + remove_course(course : Course) : None
     + clear_courses() : None
-    __str__() : str
+    + __str__() : str
 }
 
 class Course {
@@ -28,37 +28,40 @@ class Course {
     + number(val : int)
     + dept() : Tag
     + dept(val : Tag)
-    __str__() : str
+    + __str__() : str
 }
 
 class Tag {
     - _name : str
-    - _description : str
+    - _desc : str
+    + set_name(name : str) : None
+    + set_description(desc : str) : None
     + name() : str
-    + name(val : str)
-    + description() : str
-    + description(val : str)
-    __str__() : str
+    + desc() : str
+    + __str__() : str
 }
 
 class GUI {
-    - _file : str
-    - _tag : str
-
+    - _instance : GUI | None
+    - default_tags : list[str]
+    - semesters : list[str]
+    - events : Eventhandler
+    + __new__(*args, **kwargs) : GUI
+    + __init__() : None
+    + makewindow() : None
 }
 
-class GuiEventHandler {
-    - pickfile() : str
-    - pickpath(Tag : str) : str
-    - savefileas(file : str, dir : str)
-    + getTag(file : str) : str
-    + setTag(Tag : str)
+class Eventhandler {
+    - source_dir : Path | None
+    - project_root : Path
+    - current_year : str
+    + __init__() : None
+    + prepfilestruct() : None
+    + populatelist(box : tk.Listbox) : None
+    + add_tag(tag_entry : tk.Entry, tag_box : tk.Listbox) : None
+    + savefileas(filelist : tk.Listbox, semester : str, 
+                    course_name : str, tag_box : tk.Listbox) : None
 }
 
-GUI --> GuiEventHandler : uses
-GuiEventHandler --> Semester : uses
-Semester --> Course : uses
-Semester --> Tag : uses
-Course --> Tag : uses
 
 @enduml

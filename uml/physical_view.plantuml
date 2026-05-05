@@ -1,24 +1,20 @@
-@startuml Physical_View
-
-title Physical View
-
+@startuml
 ' ─────────────────────────────────────────────
 ' Physical Node: User's Desktop Machine
 ' ─────────────────────────────────────────────
 node "User's Desktop Machine" as Desktop <<device>> {
 
-  node "Operating System\n(Windows / macOS / Linux)" as OS {
+  node "Operating System\n(Linux)" as OS {
 
-    ' ── Frontend Process ──────────────────────
-    component "GUI Process" as GUIProcess <<execution environment>> {
+    ' ── Application Components ─────────────────
+    component "GUI Module\n(gui2.py, guievents2.py)" as GUIModule <<artifact>> {
     }
 
-    ' ── Backend Process ───────────────────────
-    component "Backend Process" as BackendProcess <<execution environment>> {
+    component "Backend Modules\n(course.py, semester.py, tags.py)" as BackendModule <<artifact>> {
     }
 
-    ' ── Local Database ────────────────────────
-    database "Local Database\n" as LocalDB
+    ' ── File System ────────────────────────────
+    folder "Local File System\n(CMU/ directory structure)" as FileSystem
   }
 
 }
@@ -26,10 +22,10 @@ node "User's Desktop Machine" as Desktop <<device>> {
 ' ─────────────────────────────────────────────
 ' Connections
 ' ─────────────────────────────────────────────
-GUIProcess -down-> BackendProcess : User requests
-BackendProcess -down-> LocalDB : Read / Write data
+GUIModule -down-> BackendModule : User interactions
+BackendModule -down-> FileSystem : File operations (sort, organize)
 
-BackendProcess -up-> GUIProcess : Responses / UI updates
-LocalDB -up-> BackendProcess : Query results
+BackendModule -up-> GUIModule : Status updates
+FileSystem -up-> BackendModule : File access results
 
 @enduml

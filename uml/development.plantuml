@@ -1,16 +1,16 @@
 @startuml
 package "Frontend" {
     [GUI]
+    [Eventhandler]
 }
 
 package "Backend" {
     [Semester]
-    [Subject]
+    [Course]
     [Tag]
 }
 
-
-[GUI] --> [Tag]
-[Tag] --> [Semester]
-[Tag] --> [Subject]
+[GUI] --> [Eventhandler]
+[Semester] --> [Course]
+[Course] --> [Tag]
 @enduml
