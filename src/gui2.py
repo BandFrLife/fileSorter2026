@@ -57,13 +57,13 @@ class GUI:
 
         welcome = tk.Label(
             window,
-            text="Pick a directory, select one file, "
+            text="Pick a directory, select files, "
                  "add class/semester/tags, then save.",
         )
 
         filelist = tk.Listbox(
             file_frame,
-            selectmode="single",
+            selectmode="multiple",
             width=35,
             height=14,
             exportselection=False
