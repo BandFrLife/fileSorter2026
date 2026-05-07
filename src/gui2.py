@@ -162,11 +162,12 @@ class GUI:
 
         window.mainloop()
 
+    @staticmethod
+    def main() -> None:
+        """Entry static method."""
+        window = GUI()
+        window.makewindow()
 
-def main() -> None:
-    window = GUI()
-    window.makewindow()
 
-
-if __name__ == "__main__":
-    main()
+if __name__ == "__main__":  # pragma: no cover
+    GUI.main()

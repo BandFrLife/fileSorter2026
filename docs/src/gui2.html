@@ -48,11 +48,11 @@
                         <li>
                                 <a class="function" href="#GUI.makewindow">makewindow</a>
                         </li>
+                        <li>
+                                <a class="function" href="#GUI.main">main</a>
+                        </li>
                 </ul>
 
-            </li>
-            <li>
-                    <a class="function" href="#main">main</a>
             </li>
     </ul>
 
@@ -88,7 +88,7 @@
 </span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="k">try</span><span class="p">:</span>
 </span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">guievents2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Eventhandler</span>
 </span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">.guievents2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Eventhandler</span> <span class="c1"># pragma: no cover</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">.guievents2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Eventhandler</span>  <span class="c1"># pragma: no cover</span>
 </span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a>
 </span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a>
 </span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a><span class="k">class</span><span class="w"> </span><span class="nc">GUI</span><span class="p">:</span>
@@ -241,14 +241,15 @@
 </span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a>
 </span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a>        <span class="n">window</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
 </span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a>
-</span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a>
-</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a>    <span class="n">window</span> <span class="o">=</span> <span class="n">GUI</span><span class="p">()</span>
-</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a>    <span class="n">window</span><span class="o">.</span><span class="n">makewindow</span><span class="p">()</span>
-</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a>
+</span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Entry static method.&quot;&quot;&quot;</span>
+</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a>        <span class="n">window</span> <span class="o">=</span> <span class="n">GUI</span><span class="p">()</span>
+</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a>        <span class="n">window</span><span class="o">.</span><span class="n">makewindow</span><span class="p">()</span>
 </span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a>
-</span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-</span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a>    <span class="n">main</span><span class="p">()</span>
+</span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a>
+</span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a>    <span class="n">GUI</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
 </span></pre></div>
 
 
@@ -413,6 +414,12 @@
 </span><span id="GUI-162"><a href="#GUI-162"><span class="linenos">162</span></a>        <span class="n">submit</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;se&quot;</span><span class="p">)</span>
 </span><span id="GUI-163"><a href="#GUI-163"><span class="linenos">163</span></a>
 </span><span id="GUI-164"><a href="#GUI-164"><span class="linenos">164</span></a>        <span class="n">window</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</span><span id="GUI-165"><a href="#GUI-165"><span class="linenos">165</span></a>
+</span><span id="GUI-166"><a href="#GUI-166"><span class="linenos">166</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="GUI-167"><a href="#GUI-167"><span class="linenos">167</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="GUI-168"><a href="#GUI-168"><span class="linenos">168</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Entry static method.&quot;&quot;&quot;</span>
+</span><span id="GUI-169"><a href="#GUI-169"><span class="linenos">169</span></a>        <span class="n">window</span> <span class="o">=</span> <span class="n">GUI</span><span class="p">()</span>
+</span><span id="GUI-170"><a href="#GUI-170"><span class="linenos">170</span></a>        <span class="n">window</span><span class="o">.</span><span class="n">makewindow</span><span class="p">()</span>
 </span></pre></div>
 
 
@@ -620,26 +627,31 @@
 
 
                             </div>
-                </section>
-                <section id="main">
-                            <input id="main-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                            <div id="GUI.main" class="classattr">
+                                        <input id="GUI.main-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
-            
+                    <div class="decorator decorator-staticmethod">@staticmethod</div>
+
         <span class="def">def</span>
         <span class="name">main</span><span class="signature pdoc-code condensed">(<span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
 
-                <label class="view-source-button" for="main-view-source"><span>View Source</span></label>
+                <label class="view-source-button" for="GUI.main-view-source"><span>View Source</span></label>
 
     </div>
-    <a class="headerlink" href="#main"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="main-167"><a href="#main-167"><span class="linenos">167</span></a><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="main-168"><a href="#main-168"><span class="linenos">168</span></a>    <span class="n">window</span> <span class="o">=</span> <span class="n">GUI</span><span class="p">()</span>
-</span><span id="main-169"><a href="#main-169"><span class="linenos">169</span></a>    <span class="n">window</span><span class="o">.</span><span class="n">makewindow</span><span class="p">()</span>
+    <a class="headerlink" href="#GUI.main"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="GUI.main-166"><a href="#GUI.main-166"><span class="linenos">166</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="GUI.main-167"><a href="#GUI.main-167"><span class="linenos">167</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="GUI.main-168"><a href="#GUI.main-168"><span class="linenos">168</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Entry static method.&quot;&quot;&quot;</span>
+</span><span id="GUI.main-169"><a href="#GUI.main-169"><span class="linenos">169</span></a>        <span class="n">window</span> <span class="o">=</span> <span class="n">GUI</span><span class="p">()</span>
+</span><span id="GUI.main-170"><a href="#GUI.main-170"><span class="linenos">170</span></a>        <span class="n">window</span><span class="o">.</span><span class="n">makewindow</span><span class="p">()</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Entry static method.</p>
+</div>
 
+
+                            </div>
                 </section>
     </main>
 <script>

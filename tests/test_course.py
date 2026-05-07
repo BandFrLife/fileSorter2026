@@ -20,6 +20,17 @@ class TestCourse(unittest.TestCase):
         max_size=4
     )
 
+    invalid_tag = st.one_of(
+        st.text(
+            alphabet="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM",
+            min_size=5
+        ),
+        st.text(
+            alphabet="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM",
+            max_size=3
+        )
+    )
+
     valid_course = st.text(
         alphabet="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM",
         min_size=1,
@@ -29,6 +40,11 @@ class TestCourse(unittest.TestCase):
     valid_num = st.integers(
         min_value=90,
         max_value=499
+    )
+
+    invalid_num = st.one_of(
+        st.integers(min_value=500),
+        st.integers(max_value=89)
     )
 
     def setUp(self) -> None:
@@ -70,15 +86,22 @@ class TestCourse(unittest.TestCase):
         self.c.name = name
         assert self.c.name == name
 
+        t = Tag()
+        with self.assertRaises(ValueError):
+            Course("", 2026, t)
+
     def test_getter_num(self) -> None:
         """Tests getter method for name"""
         self.assertEqual(self.c.number, 110)
 
-    @given(valid_num)
-    def test_setter_num(self, num: int) -> None:
+    @given(valid_num, invalid_num)
+    def test_setter_num(self, num: int, invalid: int) -> None:
         """Tests setter method for name using hypothesis."""
         self.c.number = num
         assert self.c.number == num
+
+        with self.assertRaises(ValueError):
+            self.c.number = invalid
 
     def test_getter_dept(self) -> None:
         """Tests getter method for name"""
@@ -91,3 +114,12 @@ class TestCourse(unittest.TestCase):
         """Tests setter method for name using hypothesis."""
         self.c._dept.set_name(dept)
         assert str(self.c._dept) == dept
+
+    @given(invalid_tag)
+    def test_setter_dept_invalid(self, dept: str) -> None:
+        """Tests setter method ValueError for name using hypothesis."""
+        t = Tag()
+        t.set_name(dept)
+
+        with self.assertRaises(ValueError):
+            self.c.dept = t

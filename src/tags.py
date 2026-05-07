@@ -24,7 +24,7 @@ class Tag:
         '''
         Setter method for description
         '''
-        self._desc = desc
+        self._desc = desc   # TEST
 
     @property
     def name(self) -> str:
@@ -38,7 +38,7 @@ class Tag:
         '''
         Getter method for description
         '''
-        return self._desc
+        return self._desc   # TEST
 
     def __str__(self) -> str:
         return f"{self.name}"

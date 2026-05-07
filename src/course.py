@@ -25,9 +25,9 @@ class Course:
             num:    int - course num
             dept:   Tag - course dept
         """
-        self._name = name
-        self._number = num
-        self._dept: Tag = dept
+        self.name = name
+        self.number = num
+        self.dept: Tag = dept
 
     @property
     def name(self) -> str:
