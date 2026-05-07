@@ -1,7 +1,7 @@
 """
     course class for the file sorter
 """
-from src.tags import Tag
+from tags import Tag
 
 
 class Course:

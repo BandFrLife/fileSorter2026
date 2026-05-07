@@ -76,7 +76,7 @@ class Eventhandler:
             return
 
         for i in filelist.curselection():
-            filename = (filelist.get(i))
+            filename = filelist.get(i)
             source_path = self.source_dir / filename
             destination_dir = (
                 self.project_root
@@ -102,3 +102,4 @@ class Eventhandler:
             tag_file.write_text("\n".join(all_tags) + "\n", encoding="utf-8")
 
             showinfo("Saved", f"Saved to:\n{destination_path}")
+

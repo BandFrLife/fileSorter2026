@@ -7,6 +7,7 @@ from tkinter import ttk
 import typing
 from typing import Optional
 from guievents2 import Eventhandler
+from guisort import sortGUI
 
 
 class GUI:
@@ -36,8 +37,9 @@ class GUI:
         ]
         self.semesters = ["Fall", "J-term", "Spring", "Summer"]
         self.events = Eventhandler()
+        self.sortwindow = sortGUI
 
-    def makewindow(self) -> None:
+    def makemainwindow(self) -> None:
         """Create and run the main Tkinter window."""
         self.events.prepfilestruct()
 
@@ -159,10 +161,58 @@ class GUI:
 
         window.mainloop()
 
+    def choicewindow(self) -> None:
+        choicew = tk.Tk()
+        choicew.title("File Sorter v0.3")
+        choicew.geometry("900x500")
+
+        for row in range(6):
+            choicew.rowconfigure(row, weight=1)
+        for col in range(4):
+            choicew.columnconfigure(col, weight=1)
+
+        button_frame = tk.Frame(choicew)
+
+        welcome = tk.Label(
+            choicew,
+            text="Pick which function you would like to use"
+        )
+
+        sortwindow = tk.Button(
+            button_frame,
+            text="File Sorter",
+            padx=15,
+            pady=3,
+            command= lambda: self.makemainwindow(),
+        )
+
+        findwindow = tk.Button(
+            button_frame,
+            text="File Finder",
+            padx=15,
+            pady=3,
+            command= lambda: sortGUI.makewindow(sortGUI()),
+        )
+
+        welcome.grid(row=0, column=0, columnspan=4, pady=8, sticky="w")
+
+        button_frame.grid(
+            row=1,
+            column=0,
+            rowspan=4,
+            padx=8,
+            pady=5,
+            sticky="nw")
+        sortwindow.pack(side="top", anchor="e")
+        findwindow.pack(side="top", anchor="w")
+
+        choicew.mainloop()
+
+
 
 def main() -> None:
     window = GUI()
-    window.makewindow()
+    window.choicewindow()
 
 
 if __name__ == "__main__":
