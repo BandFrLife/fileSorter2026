@@ -75,7 +75,7 @@ class Eventhandler:
             showerror("Missing class", "Enter the class/course name.")
             return
 
-        for i in filelist.curselection():
+        for i in filelist.curselection():  # type: ignore[no-untyped-call]
             filename = (filelist.get(i))
             source_path = self.source_dir / filename
             destination_dir = (

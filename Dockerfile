@@ -1,9 +1,13 @@
+# Based on Professor Ram Basnets OOP class
+# For use as development for running test
+
 FROM python:3.12
 
 RUN apt update \
   && apt install -y \
   g++ gcc make sqlite3 time curl git nano dos2unix \
   net-tools iputils-ping iproute2 sudo gdb less \
+  python3-tk \
   && apt clean
 
 
@@ -22,7 +26,7 @@ ENV HOME=/home/${USER}
 RUN useradd -m -s /bin/bash -N -u $UID $USER && \
   echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers && \
   chmod 0440 /etc/sudoers && \
-  chmod g+w /etc/passwd 
+  chmod g+w /etc/passwd
 
 USER user
 
@@ -34,7 +38,7 @@ RUN pip install --upgrade pip
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install zsh - use "Bira" theme with some customization. 
+# Install zsh - use "Bira" theme with some customization.
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.5/zsh-in-docker.sh)" -- \
   -t bira \
   -p git \

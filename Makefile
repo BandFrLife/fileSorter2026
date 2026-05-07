@@ -39,8 +39,8 @@ check-style:
 
 .PHONY: create-docs
 create-docs:
-	mkdir -p $(docs)
-	pdoc $(src_dir)/ --output-dir $(docs)
+	mkdir -p $(DOCS)
+	pdoc $(SRC_DIR)/ --output-dir $(DOCS)
 
 # Generate UML images
 .PHONY: create-uml
@@ -72,8 +72,12 @@ run-unittest:
 run-pytest:
 	PYTHONPATH=. $(PYTEST) -s $(TEST_DIR) -v
 
+.PHONY: allow-docker-gui
+allow-docker-gui:
+	xhost +local:docker
+
 .PHONY: docker
-docker:
+docker: allow-docker-gui
 	bash ./run-docker.sh
 
 PHONY: clean-dirs

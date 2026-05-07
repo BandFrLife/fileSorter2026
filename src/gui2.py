@@ -6,7 +6,10 @@ import tkinter as tk
 from tkinter import ttk
 import typing
 from typing import Optional
-from guievents2 import Eventhandler
+try:
+    from guievents2 import Eventhandler
+except ImportError:  # pragma: no cover
+    from .guievents2 import Eventhandler  # pragma: no cover
 
 
 class GUI:

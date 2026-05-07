@@ -143,7 +143,16 @@ if [ ! -f $ZSH_HISTORY ]; then
     touch $ZSH_HISTORY # window mounts it as directory if doesn't exist
 fi
 
+DISPLAY_ARGS=()
+
+if [ -n "$DISPLAY" ] && [ -d /tmp/.X11-unix ]; then
+    DISPLAY_ARGS+=("-e" "DISPLAY=$DISPLAY")
+    DISPLAY_ARGS+=("-v" "/tmp/.X11-unix:/tmp/.X11-unix")
+fi
+
+
 winenv $container run -it --rm \
+    "${DISPLAY_ARGS[@]}" \
     -v "$HOST_DIR:$GUEST_DIR$(optZ)" \
     -v "$SSH_DIR:$USER_HOME/.ssh" \
     -v "$GIT_CONFIG:$USER_HOME/.gitconfig" \

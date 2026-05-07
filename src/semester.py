@@ -2,8 +2,11 @@
     Semester class for the file sorter
 """
 
-import course as c
 from datetime import datetime
+try:
+    import course as c
+except ImportError:  # pragma: no cover
+    import src.course as c  # pragma: no cover
 
 
 class Semester:
