@@ -16,5 +16,6 @@ venv.bak/
 # other
 .hypothesis/
 .coverage
-CMU/
-2026/
+#CMU/
+#2026/
+README.html
