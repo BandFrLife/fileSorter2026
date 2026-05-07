@@ -80,7 +80,11 @@ allow-docker-gui:
 docker: allow-docker-gui
 	bash ./run-docker.sh
 
-PHONY: clean-dirs
+.PHONY: create-random-files
+create-random-files:
+	bash ./make_random_files.sh
+
+.PHONY: clean-dirs
 clean-dirs:
 	# remove all caches recursively
 	rm -rf `find . -type d -name '20*'` # remove all pycache
@@ -93,15 +97,16 @@ clean-dirs:
 help:
 	@echo ""
 	@echo "Available commands:"
-	@echo "  make                    - Make help"
-	@echo "  make run                - run program"
-	@echo "  make docker             - Creates a container and enters it"
-	@echo "  make all-checks         - check type, style, format"
-	@echo "  make check-type         - Run mypy on .py files"
-	@echo "  make check-style        - lint files"
-	@echo "  make check-format       - autopep8"
-	@echo "  make run-test-coverage: - Run pytest with report"
-	@echo "  make help               - Display this menu"
-	@echo "  make create-uml         - Generate .svg from .puml"
-	@echo "  make clean              - Remove unnecesary py files/dirs"
+	@echo "  make                      - Make help"
+	@echo "  make run                  - run program"
+	@echo "  make docker               - Creates a container and enters it"
+	@echo "  make all-checks           - check type, style, format"
+	@echo "  make check-type           - Run mypy on .py files"
+	@echo "  make check-style          - lint files"
+	@echo "  make check-format         - autopep8"
+	@echo "  make run-test-coverage:   - Run pytest with report"
+	@echo "  make create-random-files: - Add random files for testing"
+	@echo "  make help                 - Display this menu"
+	@echo "  make create-uml           - Generate .svg from .puml"
+	@echo "  make clean                - Remove unnecesary py files/dirs"
 
