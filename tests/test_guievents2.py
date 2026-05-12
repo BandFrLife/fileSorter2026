@@ -54,7 +54,8 @@ class FakeListbox:
         index_obj = args[0]
 
         if not isinstance(index_obj, int):
-            raise TypeError("FakeListbox index must be int")  # pragma: no cover
+            raise TypeError(
+                "FakeListbox index must be int")  # pragma: no cover
 
         return self.items[index_obj]
 

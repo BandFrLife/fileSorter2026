@@ -88,10 +88,7 @@ create-random-files:
 clean-dirs:
 	# remove all caches recursively
 	rm -rf `find . -type d -name '20*'` # remove all pycache
-	rm -rf `find . -type d -name .pytest_cache` # remove all pytest cache
-	rm -rf `find . -type d -name .mypy_cache` # remove all mypy cache
-	rm -rf `find . -type d -name .hypothesis` # remove all hypothesis cache
-	rm -rf `find . -name .coverage` # remove all coverage cache
+	rm -rf `find . -type d -name 'CMU/*'` # remove all pycache
 
 ## Show available Makefile commands
 help:
@@ -109,4 +106,5 @@ help:
 	@echo "  make help                 - Display this menu"
 	@echo "  make create-uml           - Generate .svg from .puml"
 	@echo "  make clean                - Remove unnecesary py files/dirs"
+	@echo "  make clean-dirs           - Remove any files/dirs from CMU or year dirs"
 

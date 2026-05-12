@@ -18,7 +18,9 @@ Class: CSCI 375, Object Oriented Programming and Design Patterns
 
 ### Quick Start
 
-Incomplete
+```bash
+- `$ make run`  # Runs the file sorter program
+```
 
 #### Help
 ```bash
@@ -27,8 +29,14 @@ Incomplete
 - `$ make help `
 ```
 
+#### Dev env
+```bash
+- `$ make docker`  # setup and run in container
+- `$ make create-random-files`  # add random files to directories for tests
+```
+
 Diagrams (img):
 ```
 From root:
-- `$ make create-uml`     Creates .svg output
+- `$ make create-uml`     Creates .png output of diagram
 ```
